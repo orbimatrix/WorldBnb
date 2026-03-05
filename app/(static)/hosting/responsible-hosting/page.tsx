@@ -23,6 +23,7 @@ export default function ResponsibleHostingPage() {
                 badge="Hosting"
                 title="Responsible Hosting"
                 subtitle="Being a great host means more than just providing a clean space. It means being a positive force in your community and the world."
+                bgImage="/images/hero-hosting.png"
                 gradient="from-green-600 to-teal-600"
             />
 

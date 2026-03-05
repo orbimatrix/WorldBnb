@@ -29,6 +29,7 @@ export default function HostResourcesPage() {
                 badge="Hosting"
                 title="Host Resources"
                 subtitle="Everything you need to become a confident, successful WindBnB host — guides, checklists, templates, and expert advice."
+                bgImage="/images/hero-hosting.png"
                 gradient="from-teal-500 to-emerald-600"
             />
 

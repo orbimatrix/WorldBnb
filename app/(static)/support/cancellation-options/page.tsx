@@ -53,6 +53,7 @@ export default function CancellationOptionsPage() {
                 badge="Cancellation"
                 title="Cancellation Policies"
                 subtitle="Every listing on WindBnB has a clear cancellation policy set by the host. Know what to expect before you book."
+                bgImage="/images/hero-support.png"
                 gradient="from-amber-500 to-orange-600"
             />
 

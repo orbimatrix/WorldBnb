@@ -1,23 +1,34 @@
+"use client";
+
+import { useState } from "react";
 import PageHero from "@/app/components/static/PageHero";
-import Link from "next/link";
 
 const articles = [
-    { category: "Travel Guides", tag: "🌏", title: "The 10 Most Underrated Cities to Visit in 2026", excerpt: "Skip the tourist traps — these hidden gems offer authentic culture, affordable stays, and experiences money can't buy.", date: "March 1, 2026", readTime: "6 min read", color: "from-blue-500 to-indigo-600" },
-    { category: "Host Stories", tag: "🏡", title: "How Maria Turned Her Spare Room Into $3,000 a Month", excerpt: "A single mom in Lisbon shares how hosting on WindBnB changed her life — and how you can do it too.", date: "Feb 25, 2026", readTime: "4 min read", color: "from-rose-500 to-pink-600" },
-    { category: "Design & Decor", tag: "🎨", title: "Airbnb Aesthetic: How to Design a Space Guests Love", excerpt: "Interior design tips from top-rated WindBnB hosts — from lighting tricks to the one plant that makes all the difference.", date: "Feb 20, 2026", readTime: "5 min read", color: "from-amber-500 to-orange-600" },
-    { category: "Local Experiences", tag: "🍜", title: "Eating Like a Local: Food Markets Across Southeast Asia", excerpt: "From Bangkok's floating markets to Hanoi's street food alleys — your ultimate culinary travel guide.", date: "Feb 15, 2026", readTime: "7 min read", color: "from-emerald-500 to-teal-600" },
-    { category: "Sustainability", tag: "🌿", title: "How to Travel Sustainably Without Sacrificing Comfort", excerpt: "Eco-conscious travel doesn't mean roughing it. Here's how WindBnB hosts are leading the green travel revolution.", date: "Feb 10, 2026", readTime: "5 min read", color: "from-green-500 to-emerald-600" },
-    { category: "Remote Work", tag: "💻", title: "The Best WindBnB Rentals for Digital Nomads in 2026", excerpt: "Fast WiFi, desk space, and stunning views — we ranked the top 15 work-friendly rentals you can book right now.", date: "Feb 5, 2026", readTime: "8 min read", color: "from-violet-500 to-purple-600" },
+    { category: "Travel", tag: "🌏", title: "The 10 Most Underrated Cities to Visit in 2026", excerpt: "Skip the tourist traps — these hidden gems offer authentic culture, affordable stays, and experiences money can't buy.", date: "March 1, 2026", readTime: "6 min read", color: "from-blue-500 to-indigo-600" },
+    { category: "Hosting", tag: "🏡", title: "How Maria Turned Her Spare Room Into $3,000 a Month", excerpt: "A single mom in Lisbon shares how hosting on WindBnB changed her life — and how you can do it too.", date: "Feb 25, 2026", readTime: "4 min read", color: "from-rose-500 to-pink-600" },
+    { category: "Design", tag: "🎨", title: "Airbnb Aesthetic: How to Design a Space Guests Love", excerpt: "Interior design tips from top-rated WindBnB hosts — from lighting tricks to the one plant that makes all the difference.", date: "Feb 20, 2026", readTime: "5 min read", color: "from-amber-500 to-orange-600" },
+    { category: "Food", tag: "🍜", title: "Eating Like a Local: Food Markets Across Southeast Asia", excerpt: "From Bangkok's floating markets to Hanoi's street food alleys — your ultimate culinary travel guide.", date: "Feb 15, 2026", readTime: "7 min read", color: "from-emerald-500 to-teal-600" },
+    { category: "Travel", tag: "🌿", title: "How to Travel Sustainably Without Sacrificing Comfort", excerpt: "Eco-conscious travel doesn't mean roughing it. Here's how WindBnB hosts are leading the green travel revolution.", date: "Feb 10, 2026", readTime: "5 min read", color: "from-green-500 to-emerald-600" },
+    { category: "Hosting", tag: "💻", title: "The Best WindBnB Rentals for Digital Nomads in 2026", excerpt: "Fast WiFi, desk space, and stunning views — we ranked the top 15 work-friendly rentals you can book right now.", date: "Feb 5, 2026", readTime: "8 min read", color: "from-violet-500 to-purple-600" },
 ];
 
+const FILTERS = ["All", "Travel", "Hosting", "Design", "Food"] as const;
+type Filter = (typeof FILTERS)[number];
+
 export default function MagazinePage() {
+    const [activeFilter, setActiveFilter] = useState<Filter>("All");
+
+    const filtered = activeFilter === "All"
+        ? articles
+        : articles.filter((a) => a.category === activeFilter);
+
     return (
         <>
             <PageHero
                 badge="Community"
                 title="WindBnB Magazine"
                 subtitle="Stories, guides, and inspiration from the WindBnB community — travelers, hosts, and everyone in between."
-                gradient="from-violet-600 to-purple-700"
+                bgImage="/images/hero-community.png"
             />
 
             {/* Featured Article */}
@@ -37,37 +48,51 @@ export default function MagazinePage() {
                 </div>
             </section>
 
-            {/* Article Grid */}
+            {/* Article Grid with working filter */}
             <section className="py-12 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-black text-gray-900">Latest Articles</h2>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <h2 className="text-2xl font-black text-gray-900">
+                            Latest Articles <span className="text-gray-400 font-normal text-lg">({filtered.length})</span>
+                        </h2>
                         <div className="flex gap-2 flex-wrap">
-                            {["All", "Travel", "Hosting", "Design", "Food"].map((t) => (
-                                <button key={t} className={`text-xs font-bold px-4 py-1.5 rounded-full transition-all ${t === "All" ? "bg-violet-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-violet-300"}`}>
-                                    {t}
+                            {FILTERS.map((f) => (
+                                <button
+                                    key={f}
+                                    onClick={() => setActiveFilter(f)}
+                                    className={`text-xs font-bold px-4 py-1.5 rounded-full transition-all ${activeFilter === f
+                                            ? "bg-violet-600 text-white shadow-md"
+                                            : "bg-white border border-gray-200 text-gray-600 hover:border-violet-300 hover:text-violet-600"
+                                        }`}
+                                >
+                                    {f}
                                 </button>
                             ))}
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-                        {articles.map((a) => (
-                            <article key={a.title} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                                <div className={`h-36 bg-gradient-to-br ${a.color} flex items-center justify-center`}>
-                                    <span className="text-5xl">{a.tag}</span>
-                                </div>
-                                <div className="p-6">
-                                    <span className="text-xs font-bold text-violet-600 uppercase tracking-widest">{a.category}</span>
-                                    <h3 className="font-black text-gray-900 text-lg mt-2 mb-2 group-hover:text-violet-600 transition-colors leading-snug">{a.title}</h3>
-                                    <p className="text-gray-500 text-sm leading-relaxed mb-4">{a.excerpt}</p>
-                                    <div className="flex items-center justify-between text-xs text-gray-400 border-t pt-4">
-                                        <span>{a.date}</span>
-                                        <span>{a.readTime}</span>
+
+                    {filtered.length === 0 ? (
+                        <div className="py-20 text-center text-gray-400">No articles in this category yet.</div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+                            {filtered.map((a) => (
+                                <article key={a.title} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                                    <div className={`h-36 bg-gradient-to-br ${a.color} flex items-center justify-center`}>
+                                        <span className="text-5xl">{a.tag}</span>
                                     </div>
-                                </div>
-                            </article>
-                        ))}
-                    </div>
+                                    <div className="p-6">
+                                        <span className="text-xs font-bold text-violet-600 uppercase tracking-widest">{a.category}</span>
+                                        <h3 className="font-black text-gray-900 text-lg mt-2 mb-2 group-hover:text-violet-600 transition-colors leading-snug">{a.title}</h3>
+                                        <p className="text-gray-500 text-sm leading-relaxed mb-4">{a.excerpt}</p>
+                                        <div className="flex items-center justify-between text-xs text-gray-400 border-t pt-4">
+                                            <span>{a.date}</span>
+                                            <span>{a.readTime}</span>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 

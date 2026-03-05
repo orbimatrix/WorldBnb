@@ -22,6 +22,7 @@ export default function GiftCardsPage() {
                 badge="Community"
                 title="WindBnB Gift Cards"
                 subtitle="Give the gift of travel. WindBnB Gift Cards are redeemable for stays at any of our 500,000+ listings worldwide."
+                bgImage="/images/hero-community.png"
                 gradient="from-amber-500 to-orange-500"
             />
 
@@ -40,8 +41,8 @@ export default function GiftCardsPage() {
                                             key={a}
                                             onClick={() => { setSelectedAmount(a); setCustomAmount(""); }}
                                             className={`py-3 rounded-xl font-bold text-sm transition-all border-2 ${selectedAmount === a && !customAmount
-                                                    ? "border-amber-500 bg-amber-50 text-amber-700"
-                                                    : "border-gray-200 bg-white text-gray-700 hover:border-amber-300"
+                                                ? "border-amber-500 bg-amber-50 text-amber-700"
+                                                : "border-gray-200 bg-white text-gray-700 hover:border-amber-300"
                                                 }`}
                                         >
                                             ${a}

@@ -29,7 +29,7 @@ export default function HelpCenterPage() {
                 badge="Support"
                 title="How Can We Help You?"
                 subtitle="Find answers, browse guides, or contact our support team — we're here 24/7 to make your WindBnB experience seamless."
-                gradient="from-blue-600 to-indigo-700"
+                bgImage="/images/hero-support.png"
             />
 
             {/* Search Bar */}

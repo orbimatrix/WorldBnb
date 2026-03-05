@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import PageHero from "@/app/components/static/PageHero";
 
 const openRoles = [
@@ -30,14 +33,25 @@ const deptColors: Record<string, string> = {
     Support: "bg-teal-100 text-teal-700",
 };
 
+// Build filter options dynamically from the data
+const FILTERS = ["All", ...Array.from(new Set(openRoles.map((r) => r.dept)))] as const;
+type Filter = string;
+
 export default function CareersPage() {
+    const [activeFilter, setActiveFilter] = useState<Filter>("All");
+
+    const filtered = useMemo(
+        () => activeFilter === "All" ? openRoles : openRoles.filter((r) => r.dept === activeFilter),
+        [activeFilter]
+    );
+
     return (
         <>
             <PageHero
                 badge="WindBnB"
                 title="Work at WindBnB"
                 subtitle="Join a global team building the future of travel. We're looking for curious, driven people who want to make a real difference."
-                gradient="from-violet-600 to-indigo-700"
+                bgImage="/images/hero-company.png"
             />
 
             {/* Mission Statement */}
@@ -59,40 +73,56 @@ export default function CareersPage() {
                 </div>
             </section>
 
-            {/* Open Roles */}
+            {/* Open Roles with working filter */}
             <section className="py-14 bg-gray-50">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                        <h2 className="text-2xl font-black text-gray-900">Open Positions <span className="text-gray-400 font-normal text-lg">({openRoles.length})</span></h2>
+                        <h2 className="text-2xl font-black text-gray-900">
+                            Open Positions <span className="text-gray-400 font-normal text-lg">({filtered.length})</span>
+                        </h2>
                         <div className="flex gap-2 flex-wrap">
-                            {["All", "Engineering", "Design", "Marketing"].map((f) => (
-                                <button key={f} className={`text-sm font-bold px-4 py-2 rounded-full transition-all ${f === "All" ? "bg-violet-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-violet-300"}`}>{f}</button>
+                            {FILTERS.map((f) => (
+                                <button
+                                    key={f}
+                                    onClick={() => setActiveFilter(f)}
+                                    className={`text-sm font-bold px-4 py-2 rounded-full transition-all ${activeFilter === f
+                                            ? "bg-violet-600 text-white shadow-md"
+                                            : "bg-white border border-gray-200 text-gray-600 hover:border-violet-300 hover:text-violet-600"
+                                        }`}
+                                >
+                                    {f}
+                                </button>
                             ))}
                         </div>
                     </div>
-                    <div className="space-y-3">
-                        {openRoles.map((role) => (
-                            <div key={role.id} className="bg-white rounded-2xl px-6 py-5 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center gap-4">
-                                <div className="flex-1">
-                                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                                        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${deptColors[role.dept]}`}>{role.dept}</span>
-                                        <span className="text-xs text-gray-400">{role.level}</span>
+
+                    {filtered.length === 0 ? (
+                        <div className="py-20 text-center text-gray-400">No open positions in that department right now.</div>
+                    ) : (
+                        <div className="space-y-3">
+                            {filtered.map((role) => (
+                                <div key={role.id} className="bg-white rounded-2xl px-6 py-5 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center gap-4">
+                                    <div className="flex-1">
+                                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                                            <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${deptColors[role.dept]}`}>{role.dept}</span>
+                                            <span className="text-xs text-gray-400">{role.level}</span>
+                                        </div>
+                                        <h3 className="font-black text-gray-900 hover:text-violet-600 transition-colors">{role.title}</h3>
+                                        <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mt-1">
+                                            <span className="flex items-center gap-1">
+                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                                {role.location}
+                                            </span>
+                                            <span className="bg-gray-100 text-gray-600 text-xs px-2.5 py-0.5 rounded-full">{role.type}</span>
+                                        </div>
                                     </div>
-                                    <h3 className="font-black text-gray-900 hover:text-violet-600 transition-colors">{role.title}</h3>
-                                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mt-1">
-                                        <span className="flex items-center gap-1">
-                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                            {role.location}
-                                        </span>
-                                        <span className="bg-gray-100 text-gray-600 text-xs px-2.5 py-0.5 rounded-full">{role.type}</span>
-                                    </div>
+                                    <button className="shrink-0 bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all">
+                                        Apply Now
+                                    </button>
                                 </div>
-                                <button className="shrink-0 bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all">
-                                    Apply Now
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 

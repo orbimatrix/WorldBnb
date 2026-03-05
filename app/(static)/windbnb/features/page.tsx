@@ -23,6 +23,7 @@ export default function FeaturesPage() {
                 badge="WindBnB"
                 title="Platform Features"
                 subtitle="Cutting-edge tools for guests and hosts — we're constantly shipping improvements to make your WindBnB experience exceptional."
+                bgImage="/images/hero-company.png"
                 gradient="from-blue-600 to-indigo-700"
             />
 

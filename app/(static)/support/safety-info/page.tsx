@@ -24,6 +24,7 @@ export default function SafetyInfoPage() {
                 badge="Safety"
                 title="Your Safety Is Our Priority"
                 subtitle="WindBnB is committed to creating a safe, trusted environment for every guest and host. Here's everything you need to stay safe."
+                bgImage="/images/hero-support.png"
                 gradient="from-emerald-500 to-teal-600"
             />
 

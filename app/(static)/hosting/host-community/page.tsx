@@ -1,12 +1,17 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import PageHero from "@/app/components/static/PageHero";
 
-const discussions = [
-    { avatar: "MR", name: "Maria Rodriguez", location: "Lisbon, Portugal", time: "2 hours ago", title: "Tips for handling late check-outs gracefully?", preview: "I've had a few guests who keep requesting late checkouts. What's your approach without ruining the relationship?", replies: 24, likes: 47, tag: "Guest Relations", tagColor: "bg-blue-100 text-blue-700" },
-    { avatar: "AK", name: "Alex Kim", location: "Seoul, South Korea", time: "5 hours ago", title: "Smart lock recommendations for Airbnb hosts in 2026", preview: "Looking to upgrade my key handoff process. Which smart lock brands have you had the best experience with?", replies: 18, likes: 32, tag: "Tech & Tools", tagColor: "bg-purple-100 text-purple-700" },
-    { avatar: "SB", name: "Sophie Blanc", location: "Paris, France", time: "Yesterday", title: "How I increased my occupancy from 60% to 88% in 3 months", preview: "Sharing my exact strategy including pricing tweaks, photo updates, and the one thing nobody talks about…", replies: 56, likes: 124, tag: "Success Story", tagColor: "bg-green-100 text-green-700" },
-    { avatar: "JT", name: "James Turner", location: "London, UK", time: "Yesterday", title: "Dealing with unfair negative reviews — what are your rights?", preview: "Got a 3-star review from a guest who broke my rules. Has anyone successfully gotten a review removed?", replies: 41, likes: 89, tag: "Reviews", tagColor: "bg-amber-100 text-amber-700" },
-    { avatar: "PR", name: "Priya Rajan", location: "Bangalore, India", time: "2 days ago", title: "Co-hosting arrangements — how do you split the earnings?", preview: "Partnering with a friend to manage my property while I travel. Looking for advice on fair splits and formal agreements.", replies: 15, likes: 28, tag: "Business", tagColor: "bg-rose-100 text-rose-700" },
+const allDiscussions = [
+    { avatar: "MR", name: "Maria Rodriguez", location: "Lisbon, Portugal", time: "2 hours ago", timeValue: 1, title: "Tips for handling late check-outs gracefully?", preview: "I've had a few guests who keep requesting late checkouts. What's your approach without ruining the relationship?", replies: 24, likes: 47, tag: "Guest Relations", tagColor: "bg-blue-100 text-blue-700" },
+    { avatar: "AK", name: "Alex Kim", location: "Seoul, South Korea", time: "5 hours ago", timeValue: 2, title: "Smart lock recommendations for Airbnb hosts in 2026", preview: "Looking to upgrade my key handoff process. Which smart lock brands have you had the best experience with?", replies: 18, likes: 32, tag: "Tech & Tools", tagColor: "bg-purple-100 text-purple-700" },
+    { avatar: "SB", name: "Sophie Blanc", location: "Paris, France", time: "Yesterday", timeValue: 3, title: "How I increased my occupancy from 60% to 88% in 3 months", preview: "Sharing my exact strategy including pricing tweaks, photo updates, and the one thing nobody talks about…", replies: 56, likes: 124, tag: "Success Story", tagColor: "bg-green-100 text-green-700" },
+    { avatar: "JT", name: "James Turner", location: "London, UK", time: "Yesterday", timeValue: 4, title: "Dealing with unfair negative reviews — what are your rights?", preview: "Got a 3-star review from a guest who broke my rules. Has anyone successfully gotten a review removed?", replies: 41, likes: 89, tag: "Reviews", tagColor: "bg-amber-100 text-amber-700" },
+    { avatar: "PR", name: "Priya Rajan", location: "Bangalore, India", time: "2 days ago", timeValue: 5, title: "Co-hosting arrangements — how do you split the earnings?", preview: "Partnering with a friend to manage my property while I travel. Looking for advice on fair splits and formal agreements.", replies: 15, likes: 28, tag: "Business", tagColor: "bg-rose-100 text-rose-700" },
 ];
+
+type SortMode = "hot" | "recent" | "top";
 
 const stats = [
     { icon: "👥", value: "480K+", label: "Community Members" },
@@ -16,13 +21,23 @@ const stats = [
 ];
 
 export default function HostCommunityPage() {
+    const [sortMode, setSortMode] = useState<SortMode>("hot");
+
+    const sorted = useMemo(() => {
+        const copy = [...allDiscussions];
+        if (sortMode === "hot") return copy.sort((a, b) => (b.likes + b.replies) - (a.likes + a.replies));
+        if (sortMode === "recent") return copy.sort((a, b) => a.timeValue - b.timeValue);
+        if (sortMode === "top") return copy.sort((a, b) => b.likes - a.likes);
+        return copy;
+    }, [sortMode]);
+
     return (
         <>
             <PageHero
                 badge="Hosting"
                 title="Host Community"
                 subtitle="Connect with 480,000+ hosts worldwide. Ask questions, share experiences, and grow together."
-                gradient="from-rose-500 to-pink-600"
+                bgImage="/images/hero-community.png"
             />
 
             {/* Community Stats */}
@@ -40,20 +55,35 @@ export default function HostCommunityPage() {
                 </div>
             </section>
 
-            {/* Discussions */}
+            {/* Discussions with working sort */}
             <section className="py-16 bg-gray-50">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mb-8">
                         <h2 className="text-2xl font-black text-gray-900">Recent Discussions</h2>
                         <div className="flex gap-2">
-                            <button className="text-sm font-bold bg-rose-500 text-white px-4 py-2 rounded-lg">🔥 Hot</button>
-                            <button className="text-sm font-semibold bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50">🕑 Recent</button>
-                            <button className="text-sm font-semibold bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50">🌟 Top</button>
+                            {(
+                                [
+                                    { mode: "hot" as SortMode, label: "🔥 Hot", desc: "Most engagement" },
+                                    { mode: "recent" as SortMode, label: "🕑 Recent", desc: "Newest first" },
+                                    { mode: "top" as SortMode, label: "🌟 Top", desc: "Most liked" },
+                                ] as const
+                            ).map(({ mode, label }) => (
+                                <button
+                                    key={mode}
+                                    onClick={() => setSortMode(mode)}
+                                    className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all ${sortMode === mode
+                                            ? "bg-rose-500 text-white shadow-md"
+                                            : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                                        }`}
+                                >
+                                    {label}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        {discussions.map((d) => (
+                        {sorted.map((d) => (
                             <div key={d.title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer">
                                 <div className="flex items-start gap-4">
                                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm shrink-0">

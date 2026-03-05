@@ -16,6 +16,7 @@ export default function EventsPage() {
                 badge="Community"
                 title="Events & Experiences"
                 subtitle="Join WindBnB events — from host summits to webinars and local meetups. Connect, learn, and grow with the community."
+                bgImage="/images/hero-community.png"
                 gradient="from-orange-500 to-rose-500"
             />
 

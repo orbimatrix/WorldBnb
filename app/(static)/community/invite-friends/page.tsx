@@ -25,6 +25,7 @@ export default function InviteFriendsPage() {
                 badge="Community"
                 title="Give $30, Get $30"
                 subtitle="Invite your friends to WindBnB. They get $30 off their first stay — you get $30 travel credit when they complete their booking."
+                bgImage="/images/hero-community.png"
                 gradient="from-pink-500 to-rose-600"
             />
 

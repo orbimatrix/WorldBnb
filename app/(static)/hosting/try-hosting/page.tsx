@@ -24,6 +24,7 @@ export default function TryHostingPage() {
                 badge="Hosting"
                 title="Earn Money Hosting on WindBnB"
                 subtitle="Turn your spare room, vacation home, or unique space into a source of income. Join 4 million hosts worldwide."
+                bgImage="/images/hero-hosting.png"
                 gradient="from-indigo-600 to-violet-700"
             />
 

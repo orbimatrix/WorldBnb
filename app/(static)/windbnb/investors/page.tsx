@@ -34,6 +34,7 @@ export default function InvestorsPage() {
                 badge="WindBnB"
                 title="Investor Relations"
                 subtitle="WindBnB is building the world's most trusted and innovative travel platform. Here's the story in numbers."
+                bgImage="/images/hero-company.png"
                 gradient="from-gray-900 to-slate-800"
             />
 

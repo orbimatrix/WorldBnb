@@ -29,6 +29,7 @@ export default function ReportConcernPage() {
                 title="Report a Concern"
                 subtitle="We take every report seriously. Our Trust & Safety team reviews all submissions and responds within 24 hours."
                 gradient="from-red-500 to-rose-600"
+                bgImage="/images/hero-support.png"
             />
 
             {/* Emergency banner */}
