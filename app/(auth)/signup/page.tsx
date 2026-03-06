@@ -43,7 +43,7 @@ export default function SignupPage() {
     return (
         <AuthCard
             title="Create your account ✈️"
-            subtitle="Start your WorldBNB journey — it's completely free"
+            subtitle="Start your Rentora journey — it's completely free"
         >
             {/* Social Buttons */}
             <div className="flex gap-3 mb-6">

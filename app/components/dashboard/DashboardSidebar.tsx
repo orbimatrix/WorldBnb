@@ -34,7 +34,7 @@ export default function DashboardSidebar() {
                         </svg>
                     </div>
                     <span className="text-lg font-black tracking-tight text-rose-500">
-                        world<span className="text-gray-900">bnb</span>
+                        Rentora
                     </span>
                 </Link>
             </div>

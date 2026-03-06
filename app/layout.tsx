@@ -4,8 +4,8 @@ import "./globals.css";
 import { AuthProvider } from "@/app/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "WorldBNB — Find Your Perfect Stay",
-  description: "Discover unique homes, cabins, villas and experiences around the world with WorldBNB.",
+  title: "Rentora — Find Your Perfect Stay",
+  description: "Discover unique homes, cabins, villas and experiences around the world with Rentora.",
 };
 
 const font = Nunito({ subsets: ["latin"] });

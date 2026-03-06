@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                         </svg>
                     </div>
                     <span className="text-xl font-black tracking-tight text-rose-500">
-                        world<span className="text-gray-900">bnb</span>
+                        Rentora
                     </span>
                 </Link>
             </header>
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
             {/* Footer */}
             <footer className="py-4 text-center text-xs text-gray-400 border-t border-gray-100">
-                © {new Date().getFullYear()} WorldBNB, Inc. ·{" "}
+                © {new Date().getFullYear()} Rentora, Inc. ·{" "}
                 <Link href="/privacy" className="hover:text-rose-500 transition-colors">Privacy</Link>
                 {" · "}
                 <Link href="/terms" className="hover:text-rose-500 transition-colors">Terms</Link>

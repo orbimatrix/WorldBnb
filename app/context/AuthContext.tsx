@@ -32,7 +32,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const STORAGE_KEY = "worldbnb_user";
+const STORAGE_KEY = "rentora_user";
 
 const DEMO_USER: AuthUser = {
     id: "usr_demo_001",

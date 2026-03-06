@@ -40,7 +40,7 @@ export default function LoginPage() {
     return (
         <AuthCard
             title="Welcome back 👋"
-            subtitle="Sign in to access your WorldBNB dashboard"
+            subtitle="Sign in to access your Rentora dashboard"
         >
             {/* Social Buttons */}
             <div className="flex gap-3 mb-6">

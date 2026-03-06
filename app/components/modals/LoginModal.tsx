@@ -117,7 +117,7 @@ const LoginModal = () => {
         <div className="
         justify-center flex flex-row items-center gap-2">
            <div>
-            First time using WorldBNB?
+            First time using Rentora?
            </div>
            <div
             onClick={toggle}

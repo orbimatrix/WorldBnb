@@ -14,12 +14,12 @@ const categories = [
 const faqs = [
     { q: "How do I cancel or modify my booking?", a: "You can cancel or modify a booking from your Trips dashboard. Go to Account → Trips, select the reservation, and click 'Cancel' or 'Edit'. Refunds depend on the host's cancellation policy selected at booking." },
     { q: "When will I receive my refund?", a: "Refunds are typically processed within 5–10 business days depending on your payment method and bank. You'll receive a confirmation email once the refund is initiated." },
-    { q: "How do I contact my host before check-in?", a: "Once your booking is confirmed, you can message your host directly through the WorldBNB messaging system. Go to Account → Trips → Messages to start a conversation." },
+    { q: "How do I contact my host before check-in?", a: "Once your booking is confirmed, you can message your host directly through the Rentora messaging system. Go to Account → Trips → Messages to start a conversation." },
     { q: "What if the property doesn't match the listing description?", a: "If there are significant discrepancies, contact us within 24 hours of check-in. Our Guest Guarantee covers accommodations that are significantly misrepresented." },
-    { q: "How do I become a host on WorldBNB?", a: "Visit our 'Try Hosting' page to get started. You'll need to create a listing, verify your identity, and accept our Terms of Service. Most listings are live within 24 hours." },
-    { q: "Is my personal information secure?", a: "Yes. WorldBNB uses bank-level encryption for all data. We never sell your personal information, and you can review our full Privacy Policy at any time." },
+    { q: "How do I become a host on Rentora?", a: "Visit our 'Try Hosting' page to get started. You'll need to create a listing, verify your identity, and accept our Terms of Service. Most listings are live within 24 hours." },
+    { q: "Is my personal information secure?", a: "Yes. Rentora uses bank-level encryption for all data. We never sell your personal information, and you can review our full Privacy Policy at any time." },
     { q: "Can I request a specific check-in time?", a: "Check-in times are set by the host. You can message your host to request early check-in or late check-out — it is ultimately at the host's discretion." },
-    { q: "What payment methods are accepted?", a: "WorldBNB accepts all major credit and debit cards, PayPal, and various local payment methods depending on your country. Payment details can be managed in Account → Payments." },
+    { q: "What payment methods are accepted?", a: "Rentora accepts all major credit and debit cards, PayPal, and various local payment methods depending on your country. Payment details can be managed in Account → Payments." },
 ];
 
 export default function HelpCenterPage() {
@@ -28,7 +28,7 @@ export default function HelpCenterPage() {
             <PageHero
                 badge="Support"
                 title="How Can We Help You?"
-                subtitle="Find answers, browse guides, or contact our support team — we're here 24/7 to make your WorldBNB experience seamless."
+                subtitle="Find answers, browse guides, or contact our support team — we're here 24/7 to make your Rentora experience seamless."
                 bgImage="/images/hero-support.png"
             />
 

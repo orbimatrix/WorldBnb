@@ -1,6 +1,6 @@
-# WorldBNB 🌍
+# Rentora 🌍
 
-> **Find your perfect home away from home.** WorldBNB is a full-stack short-term rental marketplace built with Next.js 14, Prisma, NextAuth, and Tailwind CSS — inspired by Airbnb.
+> **Find your perfect home away from home.** Rentora is a full-stack short-term rental marketplace built with Next.js 14, Prisma, NextAuth, and Tailwind CSS — inspired by Airbnb.
 
 ---
 
@@ -53,7 +53,7 @@ npm install
 Create a `.env` file in the project root:
 
 ```env
-DATABASE_URL="mongodb+srv://<user>:<password>@<cluster>.mongodb.net/worldbnb"
+DATABASE_URL="mongodb+srv://<user>:<password>@<cluster>.mongodb.net/rentora"
 
 NEXTAUTH_SECRET="your-secret-here"
 NEXTAUTH_URL="http://localhost:3000"
@@ -162,4 +162,4 @@ Sessions stored in MongoDB via Prisma adapter.
 
 ## 📄 License
 
-MIT — built with ❤️ by the WorldBNB team.
+MIT — built with ❤️ by the Rentora team.

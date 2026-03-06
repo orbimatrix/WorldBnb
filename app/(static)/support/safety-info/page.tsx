@@ -3,7 +3,7 @@ import InfoCard from "@/app/components/static/InfoCard";
 import Link from "next/link";
 
 const safetyTips = [
-    { icon: "✅", title: "Verify Your Host", desc: "Always book through WorldBNB. Our hosts go through identity verification and background checks before listing." },
+    { icon: "✅", title: "Verify Your Host", desc: "Always book through Rentora. Our hosts go through identity verification and background checks before listing." },
     { icon: "📍", title: "Share Your Itinerary", desc: "Before every trip, share your travel plans with someone you trust — including the property address and host contact info." },
     { icon: "🔒", title: "Secure the Property", desc: "Familiarise yourself with all door locks, windows, and emergency exits when you check in." },
     { icon: "🚨", title: "Know Local Emergency Numbers", desc: "Save local emergency services numbers (police, ambulance, fire) for your destination before you travel." },
@@ -12,9 +12,9 @@ const safetyTips = [
 ];
 
 const hostSafety = [
-    { icon: "🛡️", title: "Screen Your Guests", desc: "WorldBNB guests are verified with government-issued ID. Review guest profiles and reviews before accepting." },
-    { icon: "📷", title: "Install Safety Devices", desc: "Carbon monoxide detectors, smoke alarms, and fire extinguishers are required for all WorldBNB listings." },
-    { icon: "📋", title: "House Rules Matter", desc: "Set clear house rules in your listing. WorldBNB supports you in enforcing them with our host protection policies." },
+    { icon: "🛡️", title: "Screen Your Guests", desc: "Rentora guests are verified with government-issued ID. Review guest profiles and reviews before accepting." },
+    { icon: "📷", title: "Install Safety Devices", desc: "Carbon monoxide detectors, smoke alarms, and fire extinguishers are required for all Rentora listings." },
+    { icon: "📋", title: "House Rules Matter", desc: "Set clear house rules in your listing. Rentora supports you in enforcing them with our host protection policies." },
 ];
 
 export default function SafetyInfoPage() {
@@ -23,7 +23,7 @@ export default function SafetyInfoPage() {
             <PageHero
                 badge="Safety"
                 title="Your Safety Is Our Priority"
-                subtitle="WorldBNB is committed to creating a safe, trusted environment for every guest and host. Here's everything you need to stay safe."
+                subtitle="Rentora is committed to creating a safe, trusted environment for every guest and host. Here's everything you need to stay safe."
                 bgImage="/images/hero-support.png"
                 gradient="from-emerald-500 to-teal-600"
             />
@@ -35,7 +35,7 @@ export default function SafetyInfoPage() {
                     <p className="text-red-700 font-semibold text-sm">
                         In an emergency, always call your local emergency services first.{" "}
                         <Link href="/support/report-concern" className="underline hover:text-red-900">
-                            Report a safety concern to WorldBNB →
+                            Report a safety concern to Rentora →
                         </Link>
                     </p>
                 </div>

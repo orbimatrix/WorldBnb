@@ -31,9 +31,9 @@ export default function InvestorsPage() {
     return (
         <>
             <PageHero
-                badge="WorldBNB"
+                badge="Rentora"
                 title="Investor Relations"
-                subtitle="WorldBNB is building the world's most trusted and innovative travel platform. Here's the story in numbers."
+                subtitle="Rentora is building the world's most trusted and innovative travel platform. Here's the story in numbers."
                 bgImage="/images/hero-company.png"
                 gradient="from-gray-900 to-slate-800"
             />
@@ -125,8 +125,8 @@ export default function InvestorsPage() {
                 <div className="max-w-xl mx-auto px-4">
                     <h2 className="text-2xl font-black text-white mb-3">Investor Inquiries</h2>
                     <p className="text-gray-400 mb-6 text-sm">For media, press, or investor relations inquiries, reach our IR team directly.</p>
-                    <a href="mailto:ir@WorldBNB.com" className="inline-block bg-white text-gray-900 font-bold px-8 py-3.5 rounded-2xl hover:bg-gray-100 transition-all">
-                        ir@WorldBNB.com
+                    <a href="mailto:ir@Rentora.com" className="inline-block bg-white text-gray-900 font-bold px-8 py-3.5 rounded-2xl hover:bg-gray-100 transition-all">
+                        ir@Rentora.com
                     </a>
                 </div>
             </section>

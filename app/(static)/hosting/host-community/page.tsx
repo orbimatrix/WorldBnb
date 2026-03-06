@@ -5,7 +5,7 @@ import PageHero from "@/app/components/static/PageHero";
 
 const allDiscussions = [
     { avatar: "MR", name: "Maria Rodriguez", location: "Lisbon, Portugal", time: "2 hours ago", timeValue: 1, title: "Tips for handling late check-outs gracefully?", preview: "I've had a few guests who keep requesting late checkouts. What's your approach without ruining the relationship?", replies: 24, likes: 47, tag: "Guest Relations", tagColor: "bg-blue-100 text-blue-700" },
-    { avatar: "AK", name: "Alex Kim", location: "Seoul, South Korea", time: "5 hours ago", timeValue: 2, title: "Smart lock recommendations for Airbnb hosts in 2026", preview: "Looking to upgrade my key handoff process. Which smart lock brands have you had the best experience with?", replies: 18, likes: 32, tag: "Tech & Tools", tagColor: "bg-purple-100 text-purple-700" },
+    { avatar: "AK", name: "Alex Kim", location: "Seoul, South Korea", time: "5 hours ago", timeValue: 2, title: "Smart lock recommendations for Rentora hosts in 2026", preview: "Looking to upgrade my key handoff process. Which smart lock brands have you had the best experience with?", replies: 18, likes: 32, tag: "Tech & Tools", tagColor: "bg-purple-100 text-purple-700" },
     { avatar: "SB", name: "Sophie Blanc", location: "Paris, France", time: "Yesterday", timeValue: 3, title: "How I increased my occupancy from 60% to 88% in 3 months", preview: "Sharing my exact strategy including pricing tweaks, photo updates, and the one thing nobody talks about…", replies: 56, likes: 124, tag: "Success Story", tagColor: "bg-green-100 text-green-700" },
     { avatar: "JT", name: "James Turner", location: "London, UK", time: "Yesterday", timeValue: 4, title: "Dealing with unfair negative reviews — what are your rights?", preview: "Got a 3-star review from a guest who broke my rules. Has anyone successfully gotten a review removed?", replies: 41, likes: 89, tag: "Reviews", tagColor: "bg-amber-100 text-amber-700" },
     { avatar: "PR", name: "Priya Rajan", location: "Bangalore, India", time: "2 days ago", timeValue: 5, title: "Co-hosting arrangements — how do you split the earnings?", preview: "Partnering with a friend to manage my property while I travel. Looking for advice on fair splits and formal agreements.", replies: 15, likes: 28, tag: "Business", tagColor: "bg-rose-100 text-rose-700" },
@@ -72,8 +72,8 @@ export default function HostCommunityPage() {
                                     key={mode}
                                     onClick={() => setSortMode(mode)}
                                     className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all ${sortMode === mode
-                                            ? "bg-rose-500 text-white shadow-md"
-                                            : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                                        ? "bg-rose-500 text-white shadow-md"
+                                        : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
                                         }`}
                                 >
                                     {label}

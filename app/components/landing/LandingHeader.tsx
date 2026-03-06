@@ -38,8 +38,7 @@ export default function LandingHeader() {
                             className={`text-xl font-black tracking-tight transition-colors ${scrolled ? "text-rose-500" : "text-white"
                                 }`}
                         >
-                            world
-                            <span className={scrolled ? "text-gray-900" : "text-white/80"}>bnb</span>
+                            Rentora
                         </span>
                     </Link>
 

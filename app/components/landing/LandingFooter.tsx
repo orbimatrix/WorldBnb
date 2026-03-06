@@ -8,7 +8,7 @@ const footerLinks = {
         { label: "Report a Concern", href: "/support/report-concern" },
     ],
     Community: [
-        { label: "WorldBNB Magazine", href: "/community/magazine" },
+        { label: "Rentora Magazine", href: "/community/magazine" },
         { label: "Events", href: "/community/events" },
         { label: "Invite Friends", href: "/community/invite-friends" },
         { label: "Gift Cards", href: "/community/gift-cards" },
@@ -19,11 +19,11 @@ const footerLinks = {
         { label: "Host Community", href: "/hosting/host-community" },
         { label: "Responsible Hosting", href: "/hosting/responsible-hosting" },
     ],
-    WorldBNB: [
-        { label: "Newsroom", href: "/windbnb/newsroom" },
-        { label: "Features", href: "/windbnb/features" },
-        { label: "Careers", href: "/windbnb/careers" },
-        { label: "Investors", href: "/windbnb/investors" },
+    Rentora: [
+        { label: "Newsroom", href: "/rentora/newsroom" },
+        { label: "Features", href: "/rentora/features" },
+        { label: "Careers", href: "/rentora/careers" },
+        { label: "Investors", href: "/rentora/investors" },
     ],
 };
 
@@ -74,13 +74,13 @@ export default function LandingFooter() {
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
                         </div>
-                        <span className="text-white font-black text-lg">WorldBNB</span>
+                        <span className="text-white font-black text-lg">Rentora</span>
                     </Link>
 
                     {/* Copyright + legal links */}
                     <div className="flex flex-col sm:flex-row items-center gap-3 text-center">
                         <p className="text-sm text-gray-500">
-                            © {new Date().getFullYear()} WorldBNB, Inc. · All rights reserved.
+                            © {new Date().getFullYear()} Rentora, Inc. · All rights reserved.
                         </p>
                         <div className="flex items-center gap-3">
                             {legalLinks.map((l) => (

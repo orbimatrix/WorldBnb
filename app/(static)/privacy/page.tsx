@@ -4,11 +4,11 @@ import Link from "next/link";
 const sections = [
     {
         heading: "1. Information We Collect",
-        body: `We collect information you provide directly to us, such as when you create an account, make a booking, or contact support. This includes your name, email address, phone number, payment details, and any messages you send through our platform.\n\nWe also collect information automatically when you use WorldBNB, including your IP address, browser type, device identifiers, pages visited, and actions taken on the platform (such as searches and bookings).`,
+        body: `We collect information you provide directly to us, such as when you create an account, make a booking, or contact support. This includes your name, email address, phone number, payment details, and any messages you send through our platform.\n\nWe also collect information automatically when you use Rentora, including your IP address, browser type, device identifiers, pages visited, and actions taken on the platform (such as searches and bookings).`,
     },
     {
         heading: "2. How We Use Your Information",
-        body: `WorldBNB uses your information to:\n• Process bookings and payments securely\n• Communicate with you about your reservations and account\n• Send service updates, safety alerts, and support messages\n• Personalise your experience and improve our recommendations\n• Prevent fraud and ensure platform security\n• Comply with legal obligations\n\nWe do not sell your personal data to third parties for marketing purposes.`,
+        body: `Rentora uses your information to:\n• Process bookings and payments securely\n• Communicate with you about your reservations and account\n• Send service updates, safety alerts, and support messages\n• Personalise your experience and improve our recommendations\n• Prevent fraud and ensure platform security\n• Comply with legal obligations\n\nWe do not sell your personal data to third parties for marketing purposes.`,
     },
     {
         heading: "3. Sharing Your Information",
@@ -20,7 +20,7 @@ const sections = [
     },
     {
         heading: "5. Cookies & Tracking",
-        body: `WorldBNB uses cookies and similar tracking technologies to improve platform functionality, remember your preferences, and analyse site traffic. You can control cookie settings through your browser. Disabling cookies may affect certain features of the platform.`,
+        body: `Rentora uses cookies and similar tracking technologies to improve platform functionality, remember your preferences, and analyse site traffic. You can control cookie settings through your browser. Disabling cookies may affect certain features of the platform.`,
     },
     {
         heading: "6. Data Security",
@@ -28,19 +28,19 @@ const sections = [
     },
     {
         heading: "7. Your Rights",
-        body: `Depending on your location, you may have the right to:\n• Access the personal data we hold about you\n• Correct inaccurate or incomplete data\n• Request deletion of your personal data\n• Restrict or object to certain processing activities\n• Data portability (receive a copy in a machine-readable format)\n\nTo exercise any of these rights, contact us at privacy@worldbnb.com.`,
+        body: `Depending on your location, you may have the right to:\n• Access the personal data we hold about you\n• Correct inaccurate or incomplete data\n• Request deletion of your personal data\n• Restrict or object to certain processing activities\n• Data portability (receive a copy in a machine-readable format)\n\nTo exercise any of these rights, contact us at privacy@rentora.com.`,
     },
     {
         heading: "8. Children's Privacy",
-        body: `WorldBNB is not intended for children under 18. We do not knowingly collect personal information from minors. If you believe a child has provided us with personal data, please contact us immediately and we will take steps to remove it.`,
+        body: `Rentora is not intended for children under 18. We do not knowingly collect personal information from minors. If you believe a child has provided us with personal data, please contact us immediately and we will take steps to remove it.`,
     },
     {
         heading: "9. Changes to This Policy",
-        body: `We may update this Privacy Policy from time to time. We will notify you of significant changes via email or a prominent notice on our platform. Your continued use of WorldBNB after changes are posted constitutes your acceptance of the updated policy.`,
+        body: `We may update this Privacy Policy from time to time. We will notify you of significant changes via email or a prominent notice on our platform. Your continued use of Rentora after changes are posted constitutes your acceptance of the updated policy.`,
     },
     {
         heading: "10. Contact Us",
-        body: `For any privacy-related questions, requests, or complaints, please contact our Data Protection team:\n\nEmail: privacy@worldbnb.com\nAddress: WorldBNB, Inc. · 340 Pine Street, San Francisco, CA 94104, USA`,
+        body: `For any privacy-related questions, requests, or complaints, please contact our Data Protection team:\n\nEmail: privacy@rentora.com\nAddress: Rentora, Inc. · 340 Pine Street, San Francisco, CA 94104, USA`,
     },
 ];
 
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             <PageHero
                 badge="Legal"
                 title="Privacy Policy"
-                subtitle="We are committed to protecting your personal data. This policy explains what we collect, how we use it, and your rights as a WorldBNB user."
+                subtitle="We are committed to protecting your personal data. This policy explains what we collect, how we use it, and your rights as a Rentora user."
                 bgImage="/images/hero-company.png"
             />
 
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
                     {/* Intro */}
                     <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-10">
                         <p className="text-gray-600 text-sm leading-relaxed">
-                            This Privacy Policy applies to WorldBNB, Inc. and its affiliates globally. By using WorldBNB services — including our website, mobile apps, and related tools — you agree to the collection and use of information as described here.
+                            This Privacy Policy applies to Rentora, Inc. and its affiliates globally. By using Rentora services — including our website, mobile apps, and related tools — you agree to the collection and use of information as described here.
                         </p>
                     </div>
 

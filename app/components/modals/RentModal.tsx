@@ -270,7 +270,7 @@ const RentModal = () => {
           actionLabel={actionLabel}
           secondaryActionLabel={secondaryActionLabel}
           secondaryAction={step == STEPS.CATEGORY ? undefined : onBack}
-          title="WorldBNB your home!"
+          title="Rentora your home!"
           body={bodyContent}
         />
       );

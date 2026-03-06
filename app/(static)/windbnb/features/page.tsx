@@ -13,16 +13,16 @@ const latestFeatures = [
 const roadmap = [
     { quarter: "Q2 2026", items: ["AR Property Preview", "Multi-currency Wallets", "Group Booking Coordinator"], status: "Coming Soon" },
     { quarter: "Q3 2026", items: ["Sustainability Score for Listings", "Voice Search", "Pet-Friendly Filter Overhaul"], status: "Planned" },
-    { quarter: "Q4 2026", items: ["WorldBNB Experiences v2", "Loyalty Rewards Program", "Enterprise Host Dashboard"], status: "In Research" },
+    { quarter: "Q4 2026", items: ["Rentora Experiences v2", "Loyalty Rewards Program", "Enterprise Host Dashboard"], status: "In Research" },
 ];
 
 export default function FeaturesPage() {
     return (
         <>
             <PageHero
-                badge="WorldBNB"
+                badge="Rentora"
                 title="Platform Features"
-                subtitle="Cutting-edge tools for guests and hosts — we're constantly shipping improvements to make your WorldBNB experience exceptional."
+                subtitle="Cutting-edge tools for guests and hosts — we're constantly shipping improvements to make your Rentora experience exceptional."
                 bgImage="/images/hero-company.png"
                 gradient="from-blue-600 to-indigo-700"
             />

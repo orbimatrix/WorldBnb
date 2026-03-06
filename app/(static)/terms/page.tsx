@@ -4,39 +4,39 @@ import Link from "next/link";
 const sections = [
     {
         heading: "1. Acceptance of Terms",
-        body: `By accessing or using WorldBNB's website, mobile applications, or any of our services, you confirm that you are at least 18 years old and that you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.\n\nWorldBNB reserves the right to update these terms at any time. Continued use of the platform after changes are posted constitutes your acceptance.`,
+        body: `By accessing or using Rentora's website, mobile applications, or any of our services, you confirm that you are at least 18 years old and that you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.\n\nRentora reserves the right to update these terms at any time. Continued use of the platform after changes are posted constitutes your acceptance.`,
     },
     {
         heading: "2. User Accounts",
-        body: `To access certain features, you must create a WorldBNB account. You are responsible for:\n• Providing accurate and current registration information\n• Maintaining the confidentiality of your login credentials\n• All activity that occurs under your account\n\nWorldBNB reserves the right to suspend or terminate accounts that violate these Terms, engage in fraudulent activity, or misuse the platform in any way.`,
+        body: `To access certain features, you must create a Rentora account. You are responsible for:\n• Providing accurate and current registration information\n• Maintaining the confidentiality of your login credentials\n• All activity that occurs under your account\n\nRentora reserves the right to suspend or terminate accounts that violate these Terms, engage in fraudulent activity, or misuse the platform in any way.`,
     },
     {
         heading: "3. Booking & Payments",
-        body: `By making a booking through WorldBNB, you agree to pay the total price shown at checkout, including the nightly rate, service fees, and any applicable taxes.\n\nWorldBNB acts as a payment intermediary. Host payouts are processed after 24 hours from guest check-in. No funds are transferred before that time to ensure guest protection under our Guest Guarantee.`,
+        body: `By making a booking through Rentora, you agree to pay the total price shown at checkout, including the nightly rate, service fees, and any applicable taxes.\n\nRentora acts as a payment intermediary. Host payouts are processed after 24 hours from guest check-in. No funds are transferred before that time to ensure guest protection under our Guest Guarantee.`,
     },
     {
         heading: "4. Host Responsibilities",
-        body: `Hosts agree to:\n• List properties accurately — photos and descriptions must be truthful\n• Maintain their listing in the described condition at all times\n• Abide by all local laws, regulations, and HOA rules regarding short-term rentals\n• Respond to guest enquiries within 24 hours\n• Not discriminate against guests based on race, religion, gender, sexual orientation, disability, or national origin\n\nWorldBNB may remove listings that violate these guidelines at its sole discretion.`,
+        body: `Hosts agree to:\n• List properties accurately — photos and descriptions must be truthful\n• Maintain their listing in the described condition at all times\n• Abide by all local laws, regulations, and HOA rules regarding short-term rentals\n• Respond to guest enquiries within 24 hours\n• Not discriminate against guests based on race, religion, gender, sexual orientation, disability, or national origin\n\nRentora may remove listings that violate these guidelines at its sole discretion.`,
     },
     {
         heading: "5. Guest Responsibilities",
-        body: `Guests agree to:\n• Treat the host's property with respect and follow the listed house rules\n• Not exceed the maximum occupancy stated in the listing\n• Report any damage or issues promptly to the host and WorldBNB\n• Not use properties for unlawful purposes\n\nGuests may be held financially liable for damages caused during their stay.`,
+        body: `Guests agree to:\n• Treat the host's property with respect and follow the listed house rules\n• Not exceed the maximum occupancy stated in the listing\n• Report any damage or issues promptly to the host and Rentora\n• Not use properties for unlawful purposes\n\nGuests may be held financially liable for damages caused during their stay.`,
     },
     {
         heading: "6. Cancellations & Refunds",
-        body: `Refund eligibility depends on the cancellation policy selected by the host at time of listing. WorldBNB offers three policy tiers: Flexible, Moderate, and Strict. Please review the applicable policy before booking.\n\nWorldBNB service fees are non-refundable except in cases of verified host cancellation or under our Extenuating Circumstances Policy.`,
+        body: `Refund eligibility depends on the cancellation policy selected by the host at time of listing. Rentora offers three policy tiers: Flexible, Moderate, and Strict. Please review the applicable policy before booking.\n\nRentora service fees are non-refundable except in cases of verified host cancellation or under our Extenuating Circumstances Policy.`,
     },
     {
         heading: "7. Intellectual Property",
-        body: `All content on the WorldBNB platform — including text, images, logos, graphics, and software — is the property of WorldBNB, Inc. or its content suppliers and is protected by international copyright and trademark laws.\n\nYou may not reproduce, distribute, or create derivative works from any WorldBNB content without prior written permission.`,
+        body: `All content on the Rentora platform — including text, images, logos, graphics, and software — is the property of Rentora, Inc. or its content suppliers and is protected by international copyright and trademark laws.\n\nYou may not reproduce, distribute, or create derivative works from any Rentora content without prior written permission.`,
     },
     {
         heading: "8. Limitation of Liability",
-        body: `WorldBNB is a marketplace connecting hosts and guests and is not responsible for the actions or conduct of hosts or guests. To the maximum extent permitted by law, WorldBNB's total liability arising from use of the platform shall not exceed the total amount paid by you for the specific booking giving rise to the claim.\n\nWorldBNB is not liable for indirect, incidental, punitive, or consequential damages.`,
+        body: `Rentora is a marketplace connecting hosts and guests and is not responsible for the actions or conduct of hosts or guests. To the maximum extent permitted by law, Rentora's total liability arising from use of the platform shall not exceed the total amount paid by you for the specific booking giving rise to the claim.\n\nRentora is not liable for indirect, incidental, punitive, or consequential damages.`,
     },
     {
         heading: "9. Prohibited Activities",
-        body: `Users may not:\n• Use bots, scrapers, or automated tools to access the platform\n• Post false, misleading, or fraudulent listings\n• Harass, threaten, or harm other users\n• Use the platform for commercial subletting without disclosure\n• Attempt to circumvent the WorldBNB payment system\n\nViolations may result in immediate account termination and legal action.`,
+        body: `Users may not:\n• Use bots, scrapers, or automated tools to access the platform\n• Post false, misleading, or fraudulent listings\n• Harass, threaten, or harm other users\n• Use the platform for commercial subletting without disclosure\n• Attempt to circumvent the Rentora payment system\n\nViolations may result in immediate account termination and legal action.`,
     },
     {
         heading: "10. Governing Law",
@@ -44,7 +44,7 @@ const sections = [
     },
     {
         heading: "11. Contact",
-        body: `For questions about these Terms, please contact:\n\nEmail: legal@worldbnb.com\nAddress: WorldBNB, Inc. · 340 Pine Street, San Francisco, CA 94104, USA`,
+        body: `For questions about these Terms, please contact:\n\nEmail: legal@rentora.com\nAddress: Rentora, Inc. · 340 Pine Street, San Francisco, CA 94104, USA`,
     },
 ];
 
@@ -54,7 +54,7 @@ export default function TermsPage() {
             <PageHero
                 badge="Legal"
                 title="Terms & Conditions"
-                subtitle="Please read these terms carefully before using WorldBNB. They govern your access to and use of our platform and services."
+                subtitle="Please read these terms carefully before using Rentora. They govern your access to and use of our platform and services."
                 bgImage="/images/hero-company.png"
             />
 
@@ -71,7 +71,7 @@ export default function TermsPage() {
                     {/* Intro box */}
                     <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-10">
                         <p className="text-gray-600 text-sm leading-relaxed">
-                            These Terms & Conditions ("Terms") constitute a legally binding agreement between you and WorldBNB, Inc. governing your use of our website, apps, and marketplace services. WorldBNB is a platform that connects hosts with guests — we are not a party to agreements between hosts and guests.
+                            These Terms & Conditions ("Terms") constitute a legally binding agreement between you and Rentora, Inc. governing your use of our website, apps, and marketplace services. Rentora is a platform that connects hosts with guests — we are not a party to agreements between hosts and guests.
                         </p>
                     </div>
 

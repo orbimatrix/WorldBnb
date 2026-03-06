@@ -89,7 +89,7 @@ export default function SettingsPage() {
                             messages: "New messages from hosts",
                             promotions: "Promotions and special offers",
                             priceAlerts: "Price drop alerts for your wishlist",
-                            newsletter: "WorldBNB newsletter",
+                            newsletter: "Rentora newsletter",
                         };
                         return (
                             <div key={key} className="flex items-center justify-between py-1">
