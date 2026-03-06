@@ -279,10 +279,6 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
       </div>
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-white/90 text-sm font-medium">1M+ happy guests worldwide</span>
-        </div>
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-tight drop-shadow-lg">
           Find Your Perfect
           <span className="block bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">Home Away</span>
