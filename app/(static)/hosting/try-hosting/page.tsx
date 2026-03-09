@@ -28,24 +28,7 @@ export default function TryHostingPage() {
         gradient="from-indigo-600 to-violet-700"
       />
 
-      {/* Earnings Hero */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-indigo-900 to-violet-900 rounded-3xl p-8 sm:p-12 text-white text-center">
-            <h2 className="text-2xl font-bold text-indigo-200 mb-2">Hosts in your area earn an average of</h2>
-            <div className="text-6xl sm:text-7xl font-black my-4">$2,000<span className="text-3xl text-indigo-300">/mo</span></div>
-            <p className="text-indigo-200 mb-8 max-w-md mx-auto">Based on similar listings in your region. Your actual earnings depend on your location, space type, and availability.</p>
-            <div className="grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
-              {[{ label: "Avg. Nightly Rate", value: "$98" }, { label: "Avg. Occupancy", value: "73%" }, { label: "Avg. Rating", value: "4.87" }].map((s) => (
-                <div key={s.label}>
-                  <div className="text-3xl font-black">{s.value}</div>
-                  <div className="text-indigo-300 text-sm mt-1">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* How to Start */}
       <section className="py-16 bg-slate-50">
