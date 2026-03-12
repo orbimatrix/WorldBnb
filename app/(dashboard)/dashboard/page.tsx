@@ -1,45 +1,98 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 import StatCard from "@/app/components/dashboard/StatCard";
 
-const stats = [
-    { icon: "✈️", label: "Total Trips", value: 12, trend: "2 this year", trendUp: true, accent: "bg-rose-100 text-[#E55A3D]" },
-    { icon: "❤️", label: "Saved Listings", value: 38, trend: "5 new", trendUp: true, accent: "bg-pink-100 text-[#14B8A6]" },
-    { icon: "⭐", label: "Avg. Review", value: "4.9", trend: "0.1 up", trendUp: true, accent: "bg-amber-100 text-amber-600" },
-    { icon: "💸", label: "Total Spent", value: "$4,280", trend: "vs last year", trendUp: false, accent: "bg-indigo-100 text-indigo-600" },
-];
+interface DashboardStats {
+    totalTrips: number;
+    savedListings: number;
+    upcomingCount: number;
+    totalSpent: number;
+}
 
-const upcomingTrips = [
-    { id: 1, destination: "Santorini, Greece", property: "Cliffside Villa with Sea View", dates: "Apr 12 – Apr 18, 2026", guests: 2, nights: 6, price: "$1,140", image: "🏖️", status: "Confirmed", color: "bg-green-100 text-green-700" },
-    { id: 2, destination: "Kyoto, Japan", property: "Traditional Machiya Townhouse", dates: "Jun 3 – Jun 8, 2026", guests: 2, nights: 5, price: "$875", image: "🏯", status: "Pending", color: "bg-amber-100 text-amber-700" },
-];
+interface Booking {
+    id: string;
+    total_price: number;
+    check_in: string;
+    check_out: string;
+    status: string;
+    listings: {
+        title: string;
+        location: string;
+        image_url: string;
+    };
+}
 
-const recentActivity = [
-    { icon: "✅", text: "Booking confirmed for Santorini Villa", time: "2 hours ago", accent: "bg-green-100" },
-    { icon: "💬", text: "New message from host Maria R.", time: "5 hours ago", accent: "bg-blue-100" },
-    { icon: "⭐", text: "You left a review for Bali Treehouse", time: "Yesterday", accent: "bg-amber-100" },
-    { icon: "🔔", text: "Price drop alert: Paris Studio –12%", time: "2 days ago", accent: "bg-rose-100" },
-];
+interface Notification {
+    title: string;
+    created_at: string;
+    type: string;
+}
 
 export default function DashboardPage() {
     const { user } = useUser();
+    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [upcoming, setUpcoming] = useState<Booking[]>([]);
+    const [activity, setActivity] = useState<Notification[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const [statsRes, upcomingRes, activityRes] = await Promise.all([
+                    axios.get("/api/dashboard/stats"),
+                    axios.get("/api/bookings?status=upcoming"),
+                    axios.get("/api/notifications"),
+                ]);
+
+                setStats(statsRes.data);
+                setUpcoming(upcomingRes.data.slice(0, 3));
+                setActivity(activityRes.data.slice(0, 4));
+            } catch (error) {
+                console.error("Error fetching dashboard data:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#FF6B4A]"></div>
+            </div>
+        );
+    }
+
+    const statCards = [
+        { icon: "✈️", label: "Total Trips", value: stats?.totalTrips ?? 0, accent: "bg-rose-100 text-[#E55A3D]" },
+        { icon: "❤️", label: "Saved Listings", value: stats?.savedListings ?? 0, accent: "bg-pink-100 text-[#14B8A6]" },
+        { icon: "📅", label: "Upcoming", value: stats?.upcomingCount ?? 0, accent: "bg-amber-100 text-amber-600" },
+        { icon: "💸", label: "Total Spent", value: `$${stats?.totalSpent?.toLocaleString() ?? 0}`, accent: "bg-indigo-100 text-indigo-600" },
+    ];
+
+    const unreadCount = activity.filter(a => !(a as any).is_read).length;
 
     return (
         <div className="space-y-8">
             {/* Welcome */}
-            <div className="bg-gradient-to-r from-[#FF6B4A] to-[#14B8A6] rounded-3xl p-8 text-white">
-                <p className="text-rose-200 text-sm font-semibold mb-1">Welcome back</p>
-                <h2 className="text-3xl font-black mb-2">Hey, {user?.firstName ?? "Traveller"} 👋</h2>
-                <p className="text-rose-100 text-sm max-w-sm">
-                    You have <strong>2 upcoming trips</strong> and <strong>3 unread notifications</strong>. What would you like to do today?
+            <div className="bg-gradient-to-r from-[#FF6B4A] to-[#14B8A6] rounded-3xl p-8 text-white shadow-xl">
+                <p className="text-rose-100 text-sm font-semibold mb-1 opacity-80">Welcome back</p>
+                <h2 className="text-4xl font-black mb-3">Hey, {user?.firstName ?? "Traveller"} 👋</h2>
+                <p className="text-white/90 text-sm max-w-sm leading-relaxed">
+                    You have <strong>{stats?.upcomingCount ?? 0} upcoming trips</strong> and <strong>{unreadCount} unread notifications</strong>. What would you like to do today?
                 </p>
-                <div className="flex flex-wrap gap-3 mt-6">
-                    <Link href="/" className="bg-white text-[#FF6B4A] font-bold text-sm px-5 py-2.5 rounded-xl hover:shadow-lg transition-all">
+                <div className="flex flex-wrap gap-3 mt-8">
+                    <Link href="/" className="bg-white text-[#FF6B4A] font-black text-sm px-7 py-3 rounded-2xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
                         🔍 Browse Stays
                     </Link>
-                    <Link href="/bookings" className="bg-white/20 text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-white/30 transition-all border border-white/30">
+                    <Link href="/bookings" className="bg-white/10 text-white font-bold text-sm px-7 py-3 rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm">
                         📅 My Bookings
                     </Link>
                 </div>
@@ -47,52 +100,70 @@ export default function DashboardPage() {
 
             {/* Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {stats.map((s) => <StatCard key={s.label} {...s} />)}
+                {statCards.map((s) => <StatCard key={s.label} {...s} />)}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Upcoming Trips */}
-                <div className="lg:col-span-2">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-black text-slate-900 text-lg">Upcoming Trips</h3>
-                        <Link href="/bookings" className="text-sm text-[#FF6B4A] font-semibold hover:text-rose-700">View All →</Link>
+                <div className="lg:col-span-2 space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-black text-slate-900 text-xl">Upcoming Trips</h3>
+                        <Link href="/bookings" className="text-sm text-[#FF6B4A] font-bold hover:text-rose-700 transition-colors">View All →</Link>
                     </div>
-                    <div className="space-y-4">
-                        {upcomingTrips.map((trip) => (
-                            <div key={trip.id} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-14 h-14 rounded-xl bg-[#FFF0ED] flex items-center justify-center text-3xl shrink-0">{trip.image}</div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className="font-black text-slate-900 text-sm">{trip.destination}</span>
-                                            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${trip.color}`}>{trip.status}</span>
+                    
+                    {upcoming.length === 0 ? (
+                        <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
+                            <p className="text-gray-400 text-sm">No upcoming adventures yet. Time to book one!</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {upcoming.map((trip) => (
+                                <div key={trip.id} className="bg-white rounded-2xl p-5 border border-gray-50 shadow-sm hover:shadow-lg transition-all group">
+                                    <div className="flex items-start gap-5">
+                                        <div className="w-16 h-16 rounded-2xl bg-[#FFF0ED] flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 transition-transform">
+                                            {trip.listings.image_url}
                                         </div>
-                                        <p className="text-xs text-gray-500 truncate mb-1">{trip.property}</p>
-                                        <p className="text-xs text-gray-400">{trip.dates} · {trip.guests} guests · {trip.nights} nights</p>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <span className="font-black text-slate-900 text-base">{trip.listings.title}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-400 truncate mb-2">{trip.listings.location}</p>
+                                            <p className="text-xs font-bold text-gray-500 bg-gray-50 inline-block px-2 py-1 rounded-lg">
+                                                {new Date(trip.check_in).toLocaleDateString()} – {new Date(trip.check_out).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                        <div className="text-lg font-black text-slate-900 shrink-0">${trip.total_price}</div>
                                     </div>
-                                    <div className="text-sm font-black text-slate-900 shrink-0">{trip.price}</div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* Recent Activity */}
-                <div>
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-black text-slate-900 text-lg">Activity</h3>
-                        <Link href="/notifications" className="text-sm text-[#FF6B4A] font-semibold hover:text-rose-700">All →</Link>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-black text-slate-900 text-xl">Recent Activity</h3>
+                        <Link href="/notifications" className="text-sm text-[#FF6B4A] font-bold hover:text-rose-700 transition-colors underline decoration-rose-200 underline-offset-4">History</Link>
                     </div>
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                        {recentActivity.map((item, i) => (
-                            <div key={i} className={`flex items-start gap-3 px-5 py-4 ${i < recentActivity.length - 1 ? "border-b border-gray-50" : ""}`}>
-                                <div className={`w-8 h-8 rounded-full ${item.accent} flex items-center justify-center text-sm shrink-0`}>{item.icon}</div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-slate-700 font-medium leading-snug">{item.text}</p>
-                                    <p className="text-xs text-gray-400 mt-0.5">{item.time}</p>
+                    <div className="bg-white rounded-3xl border border-gray-50 shadow-sm overflow-hidden p-2">
+                        {activity.length === 0 ? (
+                            <div className="p-8 text-center text-gray-400 text-sm">No recent notifications.</div>
+                        ) : (
+                            activity.map((item, i) => (
+                                <div key={i} className={`flex items-start gap-3 px-4 py-4 rounded-2xl transition-colors hover:bg-gray-50 cursor-default`}>
+                                    <div className={`w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center text-sm shrink-0 shadow-sm`}>
+                                        {item.type === 'booking' ? '✅' : '🔔'}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm text-slate-800 font-bold leading-tight">{item.title}</p>
+                                        <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider font-black">
+                                            {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 
-const notifications = [
-    { id: 1, icon: "✅", title: "Booking Confirmed", body: "Your Santorini Villa booking for Apr 12–18 has been confirmed by host Maria K.", time: "2 hours ago", read: false, type: "booking" },
-    { id: 2, icon: "💬", title: "New Message from Host", body: "Maria K.: Hello! Just wanted to reach out before your stay. Feel free to message me with any questions.", time: "5 hours ago", read: false, type: "message" },
-    { id: 3, icon: "📉", title: "Price Drop Alert", body: "Good news! Paris Romantic Studio dropped 12% ($192/night → $168/night). It's still in your wishlist.", time: "2 days ago", read: false, type: "deal" },
-    { id: 4, icon: "⭐", title: "Leave a Review", body: "How was your Bali Treehouse stay? Share your experience to help future guests.", time: "3 days ago", read: true, type: "review" },
-    { id: 5, icon: "🎉", title: "You Earned a Travel Credit", body: "Your friend Alex signed up through your referral link! $30 travel credit has been added to your account.", time: "5 days ago", read: true, type: "reward" },
-    { id: 6, icon: "🏡", title: "New Listing in Your Area", body: "3 new beachfront villas matching your preferences just listed in Santorini.", time: "1 week ago", read: true, type: "discovery" },
-];
+interface Notification {
+    id: string;
+    title: string;
+    body: string;
+    type: 'booking' | 'message' | 'deal' | 'review' | 'reward' | 'discovery';
+    is_read: boolean;
+    created_at: string;
+    icon?: string;
+}
+
+const TYPE_ICONS: Record<string, string> = {
+    booking: "✅",
+    message: "💬",
+    deal: "📉",
+    review: "⭐",
+    reward: "🎉",
+    discovery: "🏡",
+};
 
 const TYPE_COLORS: Record<string, string> = {
     booking: "bg-blue-100",
@@ -21,17 +33,54 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function NotificationsPage() {
-    const [items, setItems] = useState(notifications);
+    const [items, setItems] = useState<Notification[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    function markAllRead() {
-        setItems((prev) => prev.map((n) => ({ ...n, read: true })));
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get("/api/notifications");
+            setItems(response.data);
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
+
+    async function markAllRead() {
+        try {
+            await axios.patch("/api/notifications");
+            setItems((prev) => prev.map((n) => ({ ...n, is_read: true })));
+        } catch (error) {
+            console.error("Error marking all read:", error);
+        }
     }
 
-    function markRead(id: number) {
-        setItems((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
+    async function markRead(id: string) {
+        const item = items.find(n => n.id === id);
+        if (item?.is_read) return;
+
+        try {
+            await axios.patch(`/api/notifications/${id}`);
+            setItems((prev) => prev.map((n) => n.id === id ? { ...n, is_read: true } : n));
+        } catch (error) {
+            console.error("Error marking notification read:", error);
+        }
     }
 
-    const unreadCount = items.filter((n) => !n.read).length;
+    const unreadCount = items.filter((n) => !n.is_read).length;
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF6B4A]"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-2xl space-y-5">
@@ -47,28 +96,35 @@ export default function NotificationsPage() {
                 )}
             </div>
 
-            {items.map((n) => (
-                <div
-                    key={n.id}
-                    onClick={() => markRead(n.id)}
-                    className={`bg-white rounded-2xl p-5 border shadow-sm cursor-pointer transition-all hover:shadow-md ${n.read ? "border-gray-100 opacity-75" : "border-rose-100 hover:-translate-y-0.5"
-                        }`}
-                >
-                    <div className="flex items-start gap-4">
-                        <div className={`w-11 h-11 rounded-2xl ${TYPE_COLORS[n.type]} flex items-center justify-center text-xl shrink-0`}>
-                            {n.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-2">
-                                <p className={`font-bold text-sm ${n.read ? "text-gray-600" : "text-slate-900"}`}>{n.title}</p>
-                                {!n.read && <span className="w-2 h-2 bg-[#FF6B4A] rounded-full shrink-0 mt-1.5" />}
+            {items.length === 0 ? (
+                <div className="bg-white rounded-2xl p-12 text-center border border-gray-100">
+                    <div className="text-4xl mb-3">🔔</div>
+                    <p className="text-gray-500 text-sm">No notifications yet.</p>
+                </div>
+            ) : (
+                items.map((n) => (
+                    <div
+                        key={n.id}
+                        onClick={() => markRead(n.id)}
+                        className={`bg-white rounded-2xl p-5 border shadow-sm cursor-pointer transition-all hover:shadow-md ${n.is_read ? "border-gray-100 opacity-75" : "border-rose-100 hover:-translate-y-0.5"
+                            }`}
+                    >
+                        <div className="flex items-start gap-4">
+                            <div className={`w-11 h-11 rounded-2xl ${TYPE_COLORS[n.type] || "bg-gray-100"} flex items-center justify-center text-xl shrink-0`}>
+                                {TYPE_ICONS[n.type] || "🔔"}
                             </div>
-                            <p className="text-sm text-gray-500 leading-relaxed mt-1">{n.body}</p>
-                            <p className="text-xs text-gray-400 mt-2">{n.time}</p>
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-start justify-between gap-2">
+                                    <p className={`font-bold text-sm ${n.is_read ? "text-gray-600" : "text-slate-900"}`}>{n.title}</p>
+                                    {!n.is_read && <span className="w-2 h-2 bg-[#FF6B4A] rounded-full shrink-0 mt-1.5" />}
+                                </div>
+                                <p className="text-sm text-gray-500 leading-relaxed mt-1">{n.body}</p>
+                                <p className="text-xs text-gray-400 mt-2">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))
+            )}
         </div>
     );
 }

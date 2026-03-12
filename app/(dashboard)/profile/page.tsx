@@ -2,41 +2,85 @@
 
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export default function ProfilePage() {
     const { user, isLoaded } = useUser();
 
-    const [name, setName] = useState(user?.firstName ?? "");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [bio, setBio] = useState("");
     const [location, setLocation] = useState("");
     const [phone, setPhone] = useState("");
     const [saved, setSaved] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        async function fetchProfile() {
+            try {
+                const response = await axios.get("/api/profile");
+                if (response.data) {
+                    setName(response.data.full_name || user?.firstName || "");
+                    setBio(response.data.bio || "");
+                    setLocation(response.data.location || "");
+                    setPhone(response.data.phone || "");
+                } else {
+                    setName(user?.firstName || "");
+                }
+                setEmail(user?.primaryEmailAddress?.emailAddress ?? "");
+            } catch (error) {
+                console.error("Error fetching profile:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
         if (isLoaded && user) {
-            setName(user.firstName ?? "");
-            setEmail(user.primaryEmailAddress?.emailAddress ?? "");
+            fetchProfile();
         }
     }, [isLoaded, user]);
 
     async function handleSave(e: React.FormEvent) {
         e.preventDefault();
         setSaving(true);
-        await new Promise((r) => setTimeout(r, 700));
-        // updateUser({ name, bio, location, phone });
-        setSaving(false);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+        try {
+            await axios.patch("/api/profile", {
+                fullName: name,
+                bio,
+                location,
+                phone
+            });
+            setSaved(true);
+            toast.success("Profile updated!");
+            setTimeout(() => setSaved(false), 3000);
+        } catch (error) {
+            console.error("Error saving profile:", error);
+            toast.error("Failed to update profile.");
+        } finally {
+            setSaving(false);
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF6B4A]"></div>
+            </div>
+        );
     }
 
     return (
         <div className="max-w-2xl space-y-6">
             {/* Avatar */}
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm text-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#FF8A70] to-[#14B8A6] flex items-center justify-center text-white font-black text-4xl mx-auto mb-4 shadow-lg">
-                    {name?.[0]?.toUpperCase() ?? "U"}
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#FF8A70] to-[#14B8A6] flex items-center justify-center text-white font-black text-4xl mx-auto mb-4 shadow-lg overflow-hidden">
+                    {user?.imageUrl ? (
+                        <img src={user.imageUrl} alt={name} className="w-full h-full object-cover" />
+                    ) : (
+                        name?.[0]?.toUpperCase() ?? "U"
+                    )}
                 </div>
                 <h2 className="text-xl font-black text-slate-900">{name || "Your Name"}</h2>
                 <p className="text-sm text-gray-400">{email}</p>

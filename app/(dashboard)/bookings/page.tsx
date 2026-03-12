@@ -1,19 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { format } from "date-fns";
 
-const allBookings = [
-    { id: "BK001", destination: "Santorini, Greece", property: "Cliffside Villa with Sea View", dates: "Apr 12 – Apr 18, 2026", nights: 6, price: "$1,140", status: "upcoming", image: "🏖️", host: "Maria K.", confirmation: "WB-2026-4121" },
-    { id: "BK002", destination: "Kyoto, Japan", property: "Traditional Machiya Townhouse", dates: "Jun 3 – Jun 8, 2026", nights: 5, price: "$875", status: "upcoming", image: "🏯", host: "Takashi M.", confirmation: "WB-2026-6032" },
-    { id: "BK003", destination: "Bali, Indonesia", property: "Jungle Treehouse with Pool", dates: "Jan 5 – Jan 12, 2026", nights: 7, price: "$1,260", status: "completed", image: "🌴", host: "I Made S.", confirmation: "WB-2026-0105" },
-    { id: "BK004", destination: "Paris, France", property: "Romantic Studio — Marais District", dates: "Dec 20 – Dec 26, 2025", nights: 6, price: "$960", status: "completed", image: "🗼", host: "Sophie B.", confirmation: "WB-2025-1220" },
-    { id: "BK005", destination: "New York, USA", property: "SoHo Loft with Skyline View", dates: "Nov 1 – Nov 3, 2025", nights: 2, price: "$480", status: "cancelled", image: "🗽", host: "James T.", confirmation: "WB-2025-1101" },
-];
+interface Listing {
+    id: string;
+    title: string;
+    image_url: string;
+    location: string;
+}
+
+interface Booking {
+    id: string;
+    listing_id: string;
+    check_in: string;
+    check_out: string;
+    total_price: number;
+    status: 'upcoming' | 'completed' | 'cancelled' | 'pending';
+    confirmation_code: string;
+    listings: Listing;
+}
 
 const STATUS_STYLES: Record<string, string> = {
     upcoming: "bg-blue-100 text-blue-700",
     completed: "bg-green-100 text-green-700",
     cancelled: "bg-gray-100 text-gray-500",
+    pending: "bg-amber-100 text-amber-700",
 };
 
 const FILTERS = ["All", "Upcoming", "Completed", "Cancelled"] as const;
@@ -21,10 +35,38 @@ type Filter = (typeof FILTERS)[number];
 
 export default function BookingsPage() {
     const [filter, setFilter] = useState<Filter>("All");
+    const [bookings, setBookings] = useState<Booking[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const filtered = filter === "All"
-        ? allBookings
-        : allBookings.filter((b) => b.status === filter.toLowerCase());
+    const fetchBookings = async () => {
+        try {
+            const statusParam = filter === "All" ? "all" : filter.toLowerCase();
+            const response = await axios.get(`/api/bookings?status=${statusParam}`);
+            setBookings(response.data);
+        } catch (error) {
+            console.error("Error fetching bookings:", error);
+            toast.error("Failed to load bookings");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchBookings();
+    }, [filter]);
+
+    const handleCancel = async (id: string) => {
+        if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+        try {
+            await axios.patch(`/api/bookings/${id}`, { status: 'cancelled' });
+            setBookings((prev) => prev.map(b => b.id === id ? { ...b, status: 'cancelled' } : b));
+            toast.success("Booking cancelled");
+        } catch (error) {
+            console.error("Error cancelling booking:", error);
+            toast.error("Failed to cancel booking");
+        }
+    };
 
     return (
         <div className="space-y-6">
@@ -39,43 +81,47 @@ export default function BookingsPage() {
                                 : "bg-white border border-gray-200 text-gray-600 hover:border-[#FFAA99]"
                             }`}
                     >
-                        {f} {f !== "All" && `(${allBookings.filter(b => b.status === f.toLowerCase()).length})`}
+                        {f}
                     </button>
                 ))}
             </div>
 
-            {/* Booking cards */}
-            {filtered.length === 0 ? (
+            {loading ? (
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF6B4A]"></div>
+                </div>
+            ) : bookings.length === 0 ? (
                 <div className="bg-white rounded-2xl p-16 text-center border border-gray-100">
                     <div className="text-5xl mb-3">📭</div>
                     <p className="text-gray-500 text-sm">No bookings found.</p>
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {filtered.map((b) => (
+                    {bookings.map((b) => (
                         <div key={b.id} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all">
                             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-                                <div className="w-16 h-16 rounded-2xl bg-[#FFF0ED] flex items-center justify-center text-4xl shrink-0">{b.image}</div>
+                                <div className="w-16 h-16 rounded-2xl bg-[#FFF0ED] flex items-center justify-center text-4xl shrink-0">
+                                    {b.listings.image_url}
+                                </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                                        <h3 className="font-black text-slate-900">{b.destination}</h3>
+                                        <h3 className="font-black text-slate-900">{b.listings.title}</h3>
                                         <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full capitalize ${STATUS_STYLES[b.status]}`}>{b.status}</span>
                                     </div>
-                                    <p className="text-sm text-gray-500 mb-1">{b.property}</p>
-                                    <p className="text-xs text-gray-400">{b.dates} · {b.nights} nights · Host: {b.host}</p>
-                                    <p className="text-xs text-gray-400 font-mono mt-0.5">#{b.confirmation}</p>
+                                    <p className="text-sm text-gray-500 mb-1">{b.listings.location}</p>
+                                    <p className="text-xs text-gray-400">
+                                        {format(new Date(b.check_in), "MMM dd")} – {format(new Date(b.check_out), "MMM dd, yyyy")} · #{b.confirmation_code}
+                                    </p>
                                 </div>
-                                <div className="shrink-0 text-right">
-                                    <div className="text-xl font-black text-slate-900">{b.price}</div>
-                                    <div className="text-xs text-gray-400">{b.nights} nights</div>
+                                <div className="shrink-0 text-right text-sm">
+                                    <div className="text-lg font-black text-slate-900">${b.total_price}</div>
+                                    <div className="text-gray-400 text-xs mt-0.5 whitespace-nowrap">Total paid</div>
                                     {b.status === "upcoming" && (
-                                        <button className="mt-2 text-xs font-bold text-[#FF6B4A] hover:text-rose-700 border border-rose-200 hover:border-[#FF8A70] px-3 py-1 rounded-lg transition-all">
-                                            Manage
-                                        </button>
-                                    )}
-                                    {b.status === "completed" && (
-                                        <button className="mt-2 text-xs font-bold text-amber-600 hover:text-amber-800 border border-amber-200 hover:border-amber-400 px-3 py-1 rounded-lg transition-all">
-                                            ⭐ Review
+                                        <button 
+                                            onClick={() => handleCancel(b.id)}
+                                            className="mt-3 text-[11px] font-bold text-red-500 hover:text-white hover:bg-red-500 border border-red-100 px-3 py-1.5 rounded-xl transition-all block w-full text-center"
+                                        >
+                                            Cancel
                                         </button>
                                     )}
                                 </div>

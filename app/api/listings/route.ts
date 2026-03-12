@@ -1,50 +1,29 @@
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/app/libs/supabase";
 
-import prisma from "@/app/libs/prismadb";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+export async function GET(req: Request) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const category = searchParams.get("category");
 
-export async function POST(
-  request: Request
-) {
-  const currentUser = await getCurrentUser();
+        let query = supabaseAdmin
+            .from("listings")
+            .select("*")
+            .eq("is_active", true);
 
-  if (!currentUser) {
-    return NextResponse.error();
-  }
-
-    const body = await request.json();
-    const {
-      title,
-      description,
-      imageSrc,
-      category,
-      roomCount,
-      bathroomCount,
-      guestCount,
-      location,
-      price
-    } = body;
-
-    Object.keys(body).forEach((value: any) => {
-        if (!body[value]) {
-          NextResponse.error();
+        if (category) {
+            query = query.eq("category", category);
         }
-    });
 
-    const listing = await prisma.listing.create({
-        data: {
-          title,
-          description,
-          imageSrc,
-          category,
-          roomCount,
-          bathroomCount,
-          guestCount,
-          locationValue: location.value,
-          price: parseInt(price, 10),
-          userId: currentUser.id
+        const { data, error } = await query.order("created_at", { ascending: false });
+
+        if (error) {
+            throw error;
         }
-    });
 
-    return NextResponse.json(listing);
+        return NextResponse.json(data);
+    } catch (error) {
+        console.error("[LISTINGS_GET]", error);
+        return new NextResponse("Internal Error", { status: 500 });
+    }
 }
