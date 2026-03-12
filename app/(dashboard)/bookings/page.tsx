@@ -100,12 +100,16 @@ export default function BookingsPage() {
                     {bookings.map((b) => (
                         <div key={b.id} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all">
                             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-                                <div className="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-gray-100 bg-[#FFF0ED]">
+                                <div className="relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-gray-100 bg-[#FFF0ED]">
                                     <img 
                                         src={b.listings.image_url && b.listings.image_url.startsWith('http') ? b.listings.image_url : `/images/${b.listings.image_url?.split('/').pop()?.replace('.jpg', '.png') || 'placeholder.jpg'}`} 
                                         alt={b.listings.title}
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080';
+                                            const target = e.target as HTMLImageElement;
+                                            // Try one more common variant or a high-quality fallback
+                                            if (!target.src.includes('unsplash')) {
+                                                target.src = 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080';
+                                            }
                                         }}
                                         className="object-cover w-full h-full"
                                     />

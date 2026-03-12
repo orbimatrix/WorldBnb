@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import BookingModal from "@/app/components/modals/BookingModal";
+import ListingCard from "@/app/components/listings/ListingCard";
 
 interface Listing {
     id: string;
@@ -80,50 +81,13 @@ export default function WishlistPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {items.map((item) => {
-                        const listing = item.listings;
-                        return (
-                            <div key={item.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all overflow-hidden group">
-                                {/* Image placeholder */}
-                                <div className="relative h-44 bg-gradient-to-br from-[#FFF0ED] to-pink-50 flex items-center justify-center">
-                                    <span className="text-6xl">{listing.image_url}</span>
-                                    {/* Remove from wishlist */}
-                                    <button
-                                        onClick={() => handleRemove(listing.id)}
-                                        className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#FF6B4A] hover:text-gray-400 shadow-md transition-colors"
-                                        aria-label="Remove from wishlist"
-                                    >
-                                        ❤️
-                                    </button>
-                                    <span className="absolute top-3 left-3 bg-white text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                                        {listing.category}
-                                    </span>
-                                </div>
-                                {/* Info */}
-                                <div className="p-5">
-                                    <h3 className="font-black text-slate-900 text-sm leading-snug mb-1 group-hover:text-[#FF6B4A] transition-colors">{listing.title}</h3>
-                                    <p className="text-xs text-gray-400 mb-3">{listing.location}, {listing.country}</p>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <span className="font-black text-slate-900">${listing.price_per_night}</span>
-                                            <span className="text-gray-400 text-xs"> / night</span>
-                                        </div>
-                                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                                            <span className="text-amber-400">★</span>
-                                            <span className="font-semibold">{listing.rating}</span>
-                                            <span>({listing.review_count})</span>
-                                        </div>
-                                    </div>
-                                    <button 
-                                        onClick={() => setSelectedListing(listing)}
-                                        className="w-full mt-4 bg-[#FF6B4A] hover:bg-[#E55A3D] text-white font-black text-sm py-3 rounded-xl transition-all shadow-md hover:shadow-rose-100"
-                                    >
-                                        Book Now
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
+                    {items.map((item) => (
+                        <ListingCard 
+                            key={item.id}
+                            data={item.listings as any}
+                            onAction={(listing) => setSelectedListing(listing)}
+                        />
+                    ))}
                 </div>
             )}
 

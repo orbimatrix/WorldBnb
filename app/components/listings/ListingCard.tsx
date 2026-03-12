@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import Image from "next/image";
+import HeartButton from "../HeartButton";
 
 interface Listing {
   id: string;
@@ -40,13 +41,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group relative">
+      <div className="absolute top-3 right-3 z-10">
+        <HeartButton listingId={data.id} />
+      </div>
       {data.is_sold && (
         <div className="absolute top-4 left-4 z-10 bg-black/70 backdrop-blur-md text-white text-xs font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-xl border border-white/20">
           Sold Out
         </div>
       )}
       <div className="relative h-56">
-        <Image
+        <img
           src={data.image_url?.startsWith('http') 
             ? data.image_url 
             : data.image_url?.startsWith('/') 
@@ -55,13 +59,22 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 ? `/images/${data.image_url.split('/').pop()?.replace('.jpg', '.png')}`
                 : 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080'}
           alt={data.title}
-          fill
-          className={`object-cover group-hover:scale-105 transition-transform duration-500 ${data.is_sold ? 'grayscale-[0.5]' : ''}`}
           onError={(e) => {
-            // Fallback for Next/Image is tricky, using a state would be better but let's try a simple fix first
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('unsplash')) {
+                // Try specific city mapping if it's one of ours
+                const lowerTitle = data.title.toLowerCase();
+                if (lowerTitle.includes('paris')) target.src = '/images/paris.png';
+                else if (lowerTitle.includes('bali')) target.src = '/images/bali.png';
+                else if (lowerTitle.includes('maldives')) target.src = '/images/maldives.png';
+                else if (lowerTitle.includes('kyoto')) target.src = '/images/kyoto.png';
+                else if (lowerTitle.includes('santorini')) target.src = '/images/santorini.png';
+                else target.src = 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080';
+            }
           }}
+          className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ${data.is_sold ? 'grayscale-[0.5]' : ''}`}
         />
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-full px-3 py-1 text-sm font-bold text-slate-800">
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-full px-3 py-1 text-sm font-bold text-slate-800">
           ★ {data.rating || 4.5}
         </div>
       </div>
