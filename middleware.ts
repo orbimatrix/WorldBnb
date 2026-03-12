@@ -9,6 +9,10 @@ const isProtectedRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, req) => {
+    // Webhooks are public and verify their own signatures
+    if (req.nextUrl.pathname.startsWith('/api/payments/webhook')) {
+        return;
+    }
     if (isProtectedRoute(req)) await auth.protect()
 })
 

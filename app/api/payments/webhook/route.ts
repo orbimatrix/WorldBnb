@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     console.log("[WEBHOOK] Body length (string):", bodyString.length);
     
     // Masked secret for debugging
-    const secret = process.env.STRIPE_WEBHOOK_SECRET || "";
+    const secret = (process.env.STRIPE_WEBHOOK_SECRET || "").trim();
     const maskedSecret = secret.startsWith('whsec_') 
         ? `${secret.substring(0, 10)}...${secret.substring(secret.length - 4)}`
         : "MISSING_OR_INVALID_PREFIX";
