@@ -70,6 +70,9 @@ export async function POST(req: Request) {
         if (bookingError) throw bookingError;
 
         // 3. Create Stripe Checkout Session
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://world-bnb.vercel.app';
+        const absoluteAppUrl = appUrl.startsWith('http') ? appUrl : `https://${appUrl}`;
+
         const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
@@ -86,8 +89,8 @@ export async function POST(req: Request) {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/bookings/success?bookingId=${booking.id}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/wishlist?cancelled=1`,
+            success_url: `${absoluteAppUrl}/bookings/success?bookingId=${booking.id}`,
+            cancel_url: `${absoluteAppUrl}/wishlist?cancelled=1`,
             metadata: {
                 bookingId: booking.id,
                 clerkUserId: userId,
