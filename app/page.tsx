@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -6,6 +6,9 @@ import Image from "next/image";
 import { ShieldCheck, CreditCard, MessageCircle, BadgeCheck, Zap, Sparkles } from "lucide-react";
 import LandingHeader from "@/app/components/landing/LandingHeader";
 import LandingFooter from "@/app/components/landing/LandingFooter";
+import ListingCard from "@/app/components/listings/ListingCard";
+import BookingModal from "@/app/components/modals/BookingModal";
+import getListings from "@/app/actions/getListings";
 
 /* ─── Stats ───────────────────────────────── */
 const stats = [
@@ -320,8 +323,25 @@ function HeroSection() {
   );
 }
 
-/* ─── PAGE EXPORT ────────────────────────── */
 export default function LandingPage() {
+
+  const [listings, setListings] = useState<any[]>([]);
+  const [selectedListing, setSelectedListing] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetchListings() {
+      const data = await getListings();
+      setListings(data);
+    }
+    fetchListings();
+  }, []);
+
+  const handleBook = (listing: any) => {
+    setSelectedListing(listing);
+    setIsModalOpen(true);
+  };
+
   return (
     <main className="min-h-screen">
       <LandingHeader />
@@ -330,10 +350,45 @@ export default function LandingPage() {
       <HowItWorksSection />
       <DestinationsSection />
       <WhySection />
-      <ListingsShowcase />
+      
+      {/* Real Listings Showcase */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12 gap-4">
+            <div>
+              <span className="text-[#FF6B4A] font-bold text-sm uppercase tracking-widest">Available Stays</span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-2">Find Your Next Adventure</h2>
+            </div>
+            <Link href="/" className="text-[#FF6B4A] font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+              Browse all listings <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </Link>
+          </div>
+          
+          {listings.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-gray-400">Loading amazing stays for you...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+              {listings.map((l) => (
+                <ListingCard key={l.id} data={l} onAction={handleBook} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       <HostCTASection />
       <TestimonialsSection />
       <LandingFooter />
+
+      {selectedListing && (
+        <BookingModal 
+          listing={selectedListing} 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+        />
+      )}
     </main>
   );
 }

@@ -6,8 +6,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
-      { protocol: "https", hostname: "res.cloudinary.com" }
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "images.unsplash.com" }
     ]
+
   },
   // Restrict file tracing to the project root only
   outputFileTracingRoot: path.join(__dirname),

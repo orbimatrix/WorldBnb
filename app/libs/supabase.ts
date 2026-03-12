@@ -8,9 +8,11 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 // Server-side Supabase client (uses service role — bypasses RLS)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
+export const supabaseAdmin = (typeof window === "undefined" && supabaseUrl && supabaseServiceRoleKey) 
+  ? createClient(supabaseUrl, supabaseServiceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    })
+  : null as any; // Cast to null as any to satisfy types while preventing client-side init

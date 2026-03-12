@@ -1,17 +1,20 @@
-// import prisma from "@/app/libs/prismadb";
+"use server";
+
+import { supabaseAdmin } from "@/app/libs/supabase";
 
 export default async function getListings() {
-  // DB connection commented out — returning mock empty array for UI preview
-  // try {
-  //   const listings = await prisma.listing.findMany({
-  //     orderBy: {
-  //       createdAt: 'desc'
-  //     }
-  //   });
-  //   return listings;
-  // } catch (error: any) {
-  //   throw new Error(error);
-  // }
+  try {
+    const { data: listings, error } = await supabaseAdmin
+      .from("listings")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
 
-  return [];
-}
+    if (error) throw error;
+
+    return listings || [];
+  } catch (error: any) {
+    console.error("Error fetching listings:", error);
+    return [];
+  }
+}

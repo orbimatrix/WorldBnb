@@ -45,7 +45,17 @@ export async function POST(req: Request) {
             return new NextResponse("Error updating booking", { status: 500 });
         }
 
-        // 2. Create notification for user
+        // 2. Mark listing as sold
+        const { error: listingError } = await supabaseAdmin
+            .from("listings")
+            .update({ is_sold: true })
+            .eq("id", booking.listing_id);
+
+        if (listingError) {
+            console.error("Error marking listing as sold:", listingError);
+        }
+
+        // 3. Create notification for user
         await supabaseAdmin.from("notifications").insert({
             clerk_user_id: clerkUserId,
             title: "Payment Successful! 🎉",

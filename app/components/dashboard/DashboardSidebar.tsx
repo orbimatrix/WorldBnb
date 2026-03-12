@@ -79,12 +79,13 @@ export default function DashboardSidebar() {
             {/* Bottom actions */}
             <div className="px-3 py-4 border-t border-gray-100 space-y-1">
                 <Link
-                    href="/"
+                    href="/listings"
                     className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-600 hover:bg-slate-50 hover:text-slate-900 transition-all"
                 >
                     <span className="text-base">🔍</span>
                     Browse Listings
                 </Link>
+
                 <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-50 transition-all"

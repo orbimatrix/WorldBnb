@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS public.listings (
   max_guests INTEGER DEFAULT 1,
   amenities TEXT[] DEFAULT '{}',
   is_active BOOLEAN DEFAULT TRUE,
+  is_sold BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -75,12 +76,19 @@ ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.wishlists ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
--- Sample Listings Seed
+-- Sample Listings Seed (12 Diverse Global Listings)
 INSERT INTO public.listings (title, description, location, country, price_per_night, image_url, category, rating, review_count, max_guests, amenities)
 VALUES
-('Cliffside Villa with Infinity Pool', 'Breathtaking sea views and extreme luxury.', 'Positano', 'Italy', 320, '🏖️', 'Villa', 4.98, 214, 4, '{"Pool", "Sea View", "Wifi"}'),
-('Mountain Cabin with Hot Tub', 'Cozy getaway in the heart of the mountains.', 'Banff', 'Canada', 185, '🏔️', 'Cabin', 4.92, 87, 6, '{"Hot Tub", "Fireplace", "Hiking"}'),
-('Floating Bungalow Over Water', 'Stay right on top of the turquoise ocean.', 'Maldives', 'Maldives', 590, '🌊', 'Unique', 5.0, 43, 2, '{"Private Beach", "Snorkeling"}'),
-('Art-Deco Apartment — Beach Walk', 'Stylish city living minutes from the sand.', 'Miami', 'USA', 230, '🌴', 'Apartment', 4.85, 156, 3, '{"Kitchen", "Beach Access"}'),
-('Castle Suite in the Highlands', 'Live like royalty in this historic castle.', 'Inverness', 'Scotland', 410, '🏰', 'Unique', 4.95, 62, 2, '{"History", "Breakfast Included"}'),
-('Zen Garden Guesthouse', 'Peaceful retreat surrounded by lush greenery.', 'Ubud', 'Bali', 140, '🌿', 'Villa', 4.89, 198, 2, '{"Garden", "Yoga Deck"}');
+('Cliffside Villa with Infinity Pool', 'Breathtaking sea views and extreme luxury.', 'Positano', 'Italy', 450, '/images/villas/villa1.jpg', 'Villa', 4.98, 214, 4, '{"Pool", "Sea View", "Wifi"}'),
+('Modern Glass House in the Woods', 'Floor-to-ceiling windows with immersive nature views.', 'Portland', 'USA', 280, '/images/cabins/cabin1.jpg', 'Cabin', 4.92, 87, 2, '{"Hot Tub", "Fireplace", "Wifi"}'),
+('Floating Bungalow Over Water', 'Stay right on top of the turquoise ocean.', 'Malé', 'Maldives', 590, '/images/unique/maldives.jpg', 'Unique', 5.0, 43, 2, '{"Private Beach", "Snorkeling"}'),
+('Art-Deco Apartment — Beach Walk', 'Stylish city living minutes from the sand.', 'Miami', 'USA', 195, '/images/apartments/miami.jpg', 'Apartment', 4.85, 156, 3, '{"Kitchen", "Beach Access"}'),
+('Castle Suite in the Highlands', 'Live like royalty in this historic castle.', 'Inverness', 'Scotland', 410, '/images/unique/castle.jpg', 'Unique', 4.95, 62, 2, '{"History", "Breakfast Included"}'),
+('Zen Garden Guesthouse', 'Peaceful retreat surrounded by lush greenery.', 'Ubud', 'Bali', 120, '/images/villas/bali.jpg', 'Villa', 4.89, 198, 2, '{"Garden", "Yoga Deck"}'),
+('Ski-In/Ski-Out Luxury Chalet', 'Premium mountain lodging right on the slopes.', 'Zermatt', 'Switzerland', 550, '/images/cabins/swiss.jpg', 'Cabin', 4.99, 112, 6, '{"Ski Storage", "Sauna", "Hot Tub"}'),
+('Penthouse with Sky Garden', 'Urban luxury with a private rooftop oasis.', 'Tokyo', 'Japan', 380, '/images/apartments/tokyo.jpg', 'Apartment', 4.91, 75, 4, '{"Roof Garden", "City View"}'),
+('Eco-Friendly Treehouse Retreat', 'Reconnect with nature in this sustainable stay.', 'Tulum', 'Mexico', 175, '/images/unique/tulum.jpg', 'Unique', 4.87, 142, 2, '{"Solar Power", "Eco-friendly"}'),
+('Classic Brownstone Apartment', 'Authentic Brooklyn living in a historic home.', 'Brooklyn', 'USA', 210, '/images/apartments/brooklyn.jpg', 'Apartment', 4.83, 205, 3, '{"Kitchen", "Walking Distance"}'),
+('Desert Oasis with Stargazing Deck', 'Modern comfort in the heart of the desert.', 'Joshua Tree', 'USA', 245, '/images/cabins/desert.jpg', 'Cabin', 4.96, 94, 4, '{"Stargazing Deck", "Hammock"}'),
+('Seaside Cottage on the Cliffs', 'Charming cottage with dramatic ocean views.', 'Cornwall', 'UK', 165, '/images/villas/uk.jpg', 'Villa', 4.88, 128, 2, '{"Ocean View", "Hiking Trail"}');
+

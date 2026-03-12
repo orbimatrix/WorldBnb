@@ -89,9 +89,10 @@ export default function DashboardPage() {
                     You have <strong>{stats?.upcomingCount ?? 0} upcoming trips</strong> and <strong>{unreadCount} unread notifications</strong>. What would you like to do today?
                 </p>
                 <div className="flex flex-wrap gap-3 mt-8">
-                    <Link href="/" className="bg-white text-[#FF6B4A] font-black text-sm px-7 py-3 rounded-2xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
+                    <Link href="/listings" className="bg-white text-[#FF6B4A] font-black text-sm px-7 py-3 rounded-2xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
                         🔍 Browse Stays
                     </Link>
+
                     <Link href="/bookings" className="bg-white/10 text-white font-bold text-sm px-7 py-3 rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm">
                         📅 My Bookings
                     </Link>
