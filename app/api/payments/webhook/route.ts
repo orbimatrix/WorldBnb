@@ -6,20 +6,10 @@ import { supabaseAdmin } from "@/app/libs/supabase";
 export async function POST(req: Request) {
     const arrayBuffer = await req.arrayBuffer();
     const bodyBuffer = Buffer.from(arrayBuffer);
-    const bodyString = bodyBuffer.toString("utf-8");
     const headersList = await headers();
     const signature = headersList.get("Stripe-Signature") as string;
 
-    console.log("[WEBHOOK] Received stripe-signature:", signature ? "present" : "missing");
-    console.log("[WEBHOOK] Body length (bytes):", bodyBuffer.length);
-    console.log("[WEBHOOK] Body length (string):", bodyString.length);
-    
-    // Masked secret for debugging
     const secret = (process.env.STRIPE_WEBHOOK_SECRET || "").trim();
-    const maskedSecret = secret.startsWith('whsec_') 
-        ? `${secret.substring(0, 10)}...${secret.substring(secret.length - 4)}`
-        : "MISSING_OR_INVALID_PREFIX";
-    console.log("[WEBHOOK] Using secret (masked):", maskedSecret);
 
     if (!secret || secret === 'whsec_your_webhook_secret') {
         console.error("[WEBHOOK] STRIPE_WEBHOOK_SECRET is not set or is using placeholder!");
@@ -32,13 +22,11 @@ export async function POST(req: Request) {
             bodyBuffer,
             signature,
             secret,
-            600 // Increase tolerance to 10 minutes to accommodate Vercel/Stripe delay
+            600 
         );
         console.log("[WEBHOOK] Event constructed successfully:", event.type);
     } catch (error: any) {
         console.error(`[WEBHOOK] Error: ${error.message}`);
-        // Log headers for debugging signature issues
-        console.log("[WEBHOOK] Request Headers:", JSON.stringify(Object.fromEntries(headersList.entries())));
         return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
     }
 

@@ -47,10 +47,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
       )}
       <div className="relative h-56">
         <Image
-          src={data.image_url?.startsWith('http') ? data.image_url : 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080'}
+          src={data.image_url?.startsWith('http') 
+            ? data.image_url 
+            : data.image_url?.startsWith('/') 
+              ? data.image_url 
+              : data.image_url 
+                ? `/images/${data.image_url.split('/').pop()?.replace('.jpg', '.png')}`
+                : 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080'}
           alt={data.title}
           fill
           className={`object-cover group-hover:scale-105 transition-transform duration-500 ${data.is_sold ? 'grayscale-[0.5]' : ''}`}
+          onError={(e) => {
+            // Fallback for Next/Image is tricky, using a state would be better but let's try a simple fix first
+          }}
         />
         <div className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-full px-3 py-1 text-sm font-bold text-slate-800">
           ★ {data.rating || 4.5}

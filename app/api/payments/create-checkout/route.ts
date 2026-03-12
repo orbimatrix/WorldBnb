@@ -28,7 +28,6 @@ export async function POST(req: Request) {
             updated_at: new Date().toISOString()
         };
 
-        console.log("[CREATE_CHECKOUT] Syncing profile for user:", userId);
         const { error: profileError } = await supabaseAdmin
             .from("profiles")
             .upsert(profileData, { onConflict: 'clerk_user_id' });
@@ -37,7 +36,6 @@ export async function POST(req: Request) {
             console.error("[PROFILE_SYNC_ERROR]", profileError);
             return new NextResponse(`Profile Sync Error: ${profileError.message}`, { status: 500 });
         }
-        console.log("[CREATE_CHECKOUT] Profile synced successfully");
 
         // 1. Fetch listing details for Stripe line items
         const { data: listing } = await supabaseAdmin
@@ -105,7 +103,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ url: session.url });
     } catch (error: any) {
-        console.error("[CREATE_CHECKOUT] Full Error:", error);
-        return new NextResponse(error?.message || "Internal Error", { status: 500 });
+        console.error("[CREATE_CHECKOUT] Error:", error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }

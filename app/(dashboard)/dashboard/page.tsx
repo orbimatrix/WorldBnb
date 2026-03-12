@@ -121,8 +121,12 @@ export default function DashboardPage() {
                             {upcoming.map((trip) => (
                                 <div key={trip.id} className="bg-white rounded-2xl p-5 border border-gray-50 shadow-sm hover:shadow-lg transition-all group">
                                     <div className="flex items-start gap-5">
-                                        <div className="w-16 h-16 rounded-2xl bg-[#FFF0ED] flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 transition-transform">
-                                            {trip.listings.image_url}
+                                        <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 group-hover:scale-110 transition-transform shadow-sm border border-gray-50">
+                                            <img 
+                                                src={trip.listings.image_url || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080'} 
+                                                alt={trip.listings.title}
+                                                className="object-cover w-full h-full"
+                                            />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2 mb-1">
