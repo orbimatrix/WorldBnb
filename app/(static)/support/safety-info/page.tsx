@@ -1,4 +1,4 @@
-﻿import PageHero from "@/app/components/static/PageHero";
+import PageHero from "@/app/components/static/PageHero";
 import InfoCard from "@/app/components/static/InfoCard";
 import Link from "next/link";
 
@@ -28,18 +28,6 @@ export default function SafetyInfoPage() {
                 gradient="from-emerald-500 to-teal-600"
             />
 
-            {/* Emergency Banner */}
-            <div className="bg-red-50 border-b border-red-100 py-4">
-                <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                    <span className="text-2xl">🆘</span>
-                    <p className="text-red-700 font-semibold text-sm">
-                        In an emergency, always call your local emergency services first.{" "}
-                        <Link href="/support/report-concern" className="underline hover:text-red-900">
-                            Report a safety concern to Rentora →
-                        </Link>
-                    </p>
-                </div>
-            </div>
 
             {/* Guest Safety */}
             <section className="py-16 bg-white">

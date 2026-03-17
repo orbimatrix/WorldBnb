@@ -1,4 +1,4 @@
-﻿import PageHero from "@/app/components/static/PageHero";
+import PageHero from "@/app/components/static/PageHero";
 import InfoCard from "@/app/components/static/InfoCard";
 
 const latestFeatures = [
@@ -27,20 +27,6 @@ export default function FeaturesPage() {
                 gradient="from-blue-600 to-indigo-700"
             />
 
-            {/* Feature Announcement */}
-            <section className="py-14 bg-white">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 sm:p-12 text-white flex flex-col sm:flex-row items-center gap-8">
-                        <div className="text-7xl shrink-0">🤖</div>
-                        <div>
-                            <span className="inline-block bg-white/20 border border-white/30 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3">Featured Launch</span>
-                            <h2 className="text-3xl font-black mb-3">AI-Powered Travel Assistant</h2>
-                            <p className="text-blue-100 leading-relaxed mb-5">Ask our AI assistant to plan your perfect trip — it searches, compares, and books the best stays based on your preferences, budget, and travel history.</p>
-                            <button className="bg-white text-blue-700 font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors">Try It Now →</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* Latest Features Grid */}
             <section className="py-14 bg-slate-50">

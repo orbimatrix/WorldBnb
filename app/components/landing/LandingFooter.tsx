@@ -7,12 +7,7 @@ const footerLinks = {
         { label: "Safety Info", href: "/support/safety-info" },
         { label: "Cancellation Options", href: "/support/cancellation-options" },
     ],
-    Hosting: [
-        { label: "Try Hosting", href: "/hosting/try-hosting" },
-        { label: "Host Resources", href: "/hosting/host-resources" },
-    ],
     Rentora: [
-        { label: "Newsroom", href: "/rentora/newsroom" },
         { label: "Features", href: "/rentora/features" },
     ],
 };
