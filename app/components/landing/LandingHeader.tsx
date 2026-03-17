@@ -18,7 +18,6 @@ export default function LandingHeader() {
     const navLinks = [
         { label: "How It Works", href: "/#how-it-works" },
         { label: "Destinations", href: "/#destinations" },
-        { label: "Become a Host", href: "/hosting/try-hosting" },
         { label: "Reviews", href: "/#reviews" },
     ];
 

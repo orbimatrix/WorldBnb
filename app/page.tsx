@@ -84,12 +84,12 @@ function HowItWorksSection() {
 
 /* ─── Destinations ───────────────────────── */
 const destinations = [
-  { name: "Paris", country: "France", listings: "2,840 listings", img: "/images/paris.png" },
-  { name: "Bali", country: "Indonesia", listings: "3,210 listings", img: "/images/bali.png" },
-  { name: "Maldives", country: "Indian Ocean", listings: "980 listings", img: "/images/maldives.png" },
-  { name: "Kyoto", country: "Japan", listings: "1,560 listings", img: "/images/kyoto.png" },
-  { name: "Santorini", country: "Greece", listings: "1,200 listings", img: "/images/santorini.png" },
-  { name: "New York", country: "USA", listings: "5,430 listings", img: "/images/hero-bg.png" },
+  { name: "Paris", country: "France", img: "/images/paris.png" },
+  { name: "Bali", country: "Indonesia", img: "/images/bali.png" },
+  { name: "Maldives", country: "Indian Ocean", img: "/images/maldives.png" },
+  { name: "Kyoto", country: "Japan", img: "/images/kyoto.png" },
+  { name: "Santorini", country: "Greece", img: "/images/santorini.png" },
+  { name: "New York", country: "USA", img: "/images/hero-bg.png" },
 ];
 
 function DestinationsSection() {
@@ -113,7 +113,7 @@ function DestinationsSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <div className="text-white font-black text-xl">{d.name}</div>
-                  <div className="text-white/70 text-sm">{d.country} · {d.listings}</div>
+                  <div className="text-white/70 text-sm">{d.country}</div>
                 </div>
               </div>
             </Link>
