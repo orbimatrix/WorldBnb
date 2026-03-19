@@ -96,6 +96,14 @@ export default function DashboardPage() {
                     <Link href="/bookings" className="bg-white/10 text-white font-bold text-sm px-7 py-3 rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm">
                         📅 My Bookings
                     </Link>
+
+                    <Link href="/create-listing" className="bg-white/10 text-white font-bold text-sm px-7 py-3 rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm">
+                        🏠 Rent Out Property
+                    </Link>
+
+                    <Link href="/my-properties" className="bg-white/10 text-white font-bold text-sm px-7 py-3 rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm">
+                        🔑 My Properties
+                    </Link>
                 </div>
             </div>
 
@@ -122,17 +130,10 @@ export default function DashboardPage() {
                                 <div key={trip.id} className="bg-white rounded-2xl p-5 border border-gray-50 shadow-sm hover:shadow-lg transition-all group">
                                     <div className="flex items-start gap-5">
                                         <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 group-hover:scale-110 transition-transform shadow-sm border border-gray-50 bg-[#FFF0ED]">
-                                            <img 
-                                                src={trip.listings.image_url && trip.listings.image_url.startsWith('http') ? trip.listings.image_url : `/images/${trip.listings.image_url?.split('/').pop()?.replace('.jpg', '.png') || 'placeholder.jpg'}`} 
-                                                alt={trip.listings.title}
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    if (!target.src.includes('unsplash')) {
-                                                        target.src = 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080';
-                                                    }
-                                                }}
-                                                className="object-cover w-full h-full"
-                                            />
+                                            {/* Picture temporarily removed */}
+                                            <div className="w-full h-full bg-slate-100 flex items-center justify-center text-xs text-gray-400">
+                                                No Img
+                                            </div>
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2 mb-1">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
 interface Listing {
     id: string;
@@ -10,6 +11,8 @@ interface Listing {
     price_per_night: number;
     location: string;
     country: string;
+    category?: string;
+    amenities?: string[];
 }
 
 interface BookingModalProps {
@@ -19,6 +22,7 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ listing, isOpen, onClose }: BookingModalProps) {
+    const { user } = useUser();
     const [guests, setGuests] = useState(1);
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
@@ -26,18 +30,21 @@ export default function BookingModal({ listing, isOpen, onClose }: BookingModalP
 
     if (!isOpen) return null;
 
+    const isSale = listing.category === 'Sale';
+    const isOwner = listing.amenities?.includes(`host:${user?.id}`);
+
     // Simplified price calculation
     const nights = (checkIn && checkOut) 
         ? Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)) 
         : 0;
     
-    const subtotal = Math.max(0, nights) * listing.price_per_night;
-    const cleaningFee = 50;
-    const serviceFee = Math.round(subtotal * 0.14);
+    const subtotal = isSale ? listing.price_per_night : Math.max(0, nights) * listing.price_per_night;
+    const cleaningFee = isSale ? 0 : 50;
+    const serviceFee = isSale ? 0 : Math.round(subtotal * 0.14);
     const totalPrice = subtotal + cleaningFee + serviceFee;
 
     const handleBooking = async () => {
-        if (!checkIn || !checkOut) {
+        if (!isSale && (!checkIn || !checkOut)) {
             toast.error("Please select dates");
             return;
         }
@@ -46,9 +53,9 @@ export default function BookingModal({ listing, isOpen, onClose }: BookingModalP
         try {
             const response = await axios.post("/api/payments/create-checkout", {
                 listingId: listing.id,
-                checkIn,
-                checkOut,
-                guests,
+                checkIn: isSale ? new Date().toISOString() : checkIn,
+                checkOut: isSale ? new Date(Date.now() + 86400000).toISOString() : checkOut,
+                guests: isSale ? 1 : guests,
                 totalPrice
             });
 
@@ -80,51 +87,64 @@ export default function BookingModal({ listing, isOpen, onClose }: BookingModalP
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                        <div className="space-y-1.5">
-                            <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Check-in</label>
-                            <input 
-                                type="date" 
-                                value={checkIn}
-                                onChange={(e) => setCheckIn(e.target.value)}
-                                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all"
-                            />
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Check-out</label>
-                            <input 
-                                type="date" 
-                                value={checkOut}
-                                onChange={(e) => setCheckOut(e.target.value)}
-                                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all"
-                            />
-                        </div>
-                    </div>
+                    {!isSale && (
+                        <>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Check-in</label>
+                                    <input 
+                                        type="date" 
+                                        value={checkIn}
+                                        onChange={(e) => setCheckIn(e.target.value)}
+                                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Check-out</label>
+                                    <input 
+                                        type="date" 
+                                        value={checkOut}
+                                        onChange={(e) => setCheckOut(e.target.value)}
+                                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all"
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Guests</label>
-                        <select 
-                            value={guests}
-                            onChange={(e) => setGuests(Number(e.target.value))}
-                            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all appearance-none bg-white"
-                        >
-                            {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n} Guest{n > 1 ? 's' : ''}</option>)}
-                        </select>
-                    </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider ml-1">Guests</label>
+                                <select 
+                                    value={guests}
+                                    onChange={(e) => setGuests(Number(e.target.value))}
+                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#FF6B4A] outline-none transition-all appearance-none bg-white"
+                                >
+                                    {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n} Guest{n > 1 ? 's' : ''}</option>)}
+                                </select>
+                            </div>
+                        </>
+                    )}
 
                     <div className="space-y-3 pt-2">
-                        <div className="flex justify-between text-sm text-gray-500">
-                            <span>${listing.price_per_night} x {nights} nights</span>
-                            <span>${subtotal}</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-gray-500">
-                            <span>Cleaning fee</span>
-                            <span>${cleaningFee}</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-gray-500">
-                            <span>Rentora service fee</span>
-                            <span>${serviceFee}</span>
-                        </div>
+                        {isSale ? (
+                            <div className="flex justify-between text-sm text-gray-500">
+                                <span>Property Price</span>
+                                <span>${subtotal}</span>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="flex justify-between text-sm text-gray-500">
+                                    <span>${listing.price_per_night} x {nights} nights</span>
+                                    <span>${subtotal}</span>
+                                </div>
+                                <div className="flex justify-between text-sm text-gray-500">
+                                    <span>Cleaning fee</span>
+                                    <span>${cleaningFee}</span>
+                                </div>
+                                <div className="flex justify-between text-sm text-gray-500">
+                                    <span>Rentora service fee</span>
+                                    <span>${serviceFee}</span>
+                                </div>
+                            </>
+                        )}
                         <div className="border-t border-gray-100 pt-3 flex justify-between">
                             <span className="font-black text-slate-900">Total</span>
                             <span className="font-black text-[#FF6B4A] text-lg">${totalPrice}</span>
@@ -133,10 +153,10 @@ export default function BookingModal({ listing, isOpen, onClose }: BookingModalP
 
                     <button 
                         onClick={handleBooking}
-                        disabled={loading || nights <= 0}
+                        disabled={loading || (!isSale && nights <= 0) || isOwner}
                         className="w-full bg-gradient-to-r from-[#FF6B4A] to-[#E55C3D] hover:shadow-xl text-white font-black py-4 rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {loading ? "Redirecting..." : `Confirm & Pay`}
+                        {isOwner ? "You can't buy your own property" : loading ? "Redirecting..." : isSale ? "Confirm Purchase" : "Confirm & Pay"}
                     </button>
                     <p className="text-[10px] text-center text-gray-400">You won't be charged yet in this demo (Stripe Sandbox)</p>
                 </div>

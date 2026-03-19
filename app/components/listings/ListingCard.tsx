@@ -50,30 +50,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
         </div>
       )}
       <div className="relative h-56">
-        <img
-          src={data.image_url?.startsWith('http') 
-            ? data.image_url 
-            : data.image_url?.startsWith('/') 
-              ? data.image_url 
-              : data.image_url 
-                ? `/images/${data.image_url.split('/').pop()?.replace('.jpg', '.png')}`
-                : 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080'}
-          alt={data.title}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            if (!target.src.includes('unsplash')) {
-                // Try specific city mapping if it's one of ours
-                const lowerTitle = data.title.toLowerCase();
-                if (lowerTitle.includes('paris')) target.src = '/images/paris.png';
-                else if (lowerTitle.includes('bali')) target.src = '/images/bali.png';
-                else if (lowerTitle.includes('maldives')) target.src = '/images/maldives.png';
-                else if (lowerTitle.includes('kyoto')) target.src = '/images/kyoto.png';
-                else if (lowerTitle.includes('santorini')) target.src = '/images/santorini.png';
-                else target.src = 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1080';
-            }
-          }}
-          className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ${data.is_sold ? 'grayscale-[0.5]' : ''}`}
-        />
+        {/* Picture temporarily removed */}
+        <div className="w-full h-full bg-slate-100 flex items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
+          No Image Available
+        </div>
         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur rounded-full px-3 py-1 text-sm font-bold text-slate-800">
           ★ {data.rating || 4.5}
         </div>
@@ -84,7 +64,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <div className="flex items-center justify-between border-t pt-4">
           <div>
             <span className="text-xl font-black text-slate-900">${data.price_per_night}</span>
-            <span className="text-gray-400 text-sm"> / night</span>
+            {data.category !== 'Sale' && <span className="text-gray-400 text-sm"> / night</span>}
           </div>
           <button
             onClick={handleAction}
@@ -95,7 +75,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 : 'bg-[#FF6B4A] text-white hover:bg-[#E55A3D] shadow-md hover:shadow-lg'
             }`}
           >
-            {data.is_sold ? "Unavailable" : "Book Now"}
+            {data.is_sold ? "Unavailable" : data.category === 'Sale' ? "Buy Now" : "Book Now"}
           </button>
         </div>
       </div>

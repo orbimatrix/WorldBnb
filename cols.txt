@@ -1,0 +1,1 @@
+["id","title","description","location","country","price_per_night","image_url","category","rating","review_count","max_guests","amenities","is_active","created_at"]

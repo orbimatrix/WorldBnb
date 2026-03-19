@@ -3,8 +3,13 @@
 import getListings from "@/app/actions/getListings";
 import ListingsClient from "./ListingsClient";
 
-export default async function ListingsPage() {
-  const listings = await getListings();
+export default async function ListingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
+  const listings = await getListings(resolvedParams);
 
   return (
     <div className="space-y-8">
